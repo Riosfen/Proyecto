@@ -68,7 +68,19 @@ public class VistaUsuario extends javax.swing.JPanel {
         panelPostizo.repaint();
         
     }
-
+    
+    public JButton getBotonAgregar(){
+    	return jButtonAgregar;
+    }
+    
+    public JButton getBotonBuscar(){
+    	return jButtonBuscar;
+    }
+    
+    public void setActivarBotones(){
+    	jButtonAgregar.setEnabled(true);
+    	jButtonBuscar.setEnabled(true);
+    }
     
     private void initComponents() {
 

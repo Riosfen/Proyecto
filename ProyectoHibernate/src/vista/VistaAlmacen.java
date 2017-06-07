@@ -69,6 +69,18 @@ public class VistaAlmacen extends javax.swing.JPanel {
         
     }
     
+    public JButton getBotonAgregar(){
+    	return jButtonAgregar;
+    }
+    
+    public JButton getBotonBuscar(){
+    	return jButtonBuscar;
+    }
+    
+    public void setActivarBotones(){
+    	jButtonAgregar.setEnabled(true);
+    	jButtonBuscar.setEnabled(true);
+    }
     
     private void initComponents() {
 
