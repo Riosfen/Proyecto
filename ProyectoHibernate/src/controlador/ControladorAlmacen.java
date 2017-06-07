@@ -29,6 +29,7 @@ public class ControladorAlmacen implements ActionListener{
         this.panelAlmacen = panelAlmacen;
         this.panelAlmacen.getBigPanel().controladorSalir(this, "atras");
         this.panelAlmacen.getBigPanel().controladorAyuda(this, "ayuda");
+        this.panelAlmacen.setActivarBotones();
         HibernateUtil.buildSessionFactory();
     }
 
@@ -46,6 +47,8 @@ public class ControladorAlmacen implements ActionListener{
             case "ventana_agregar":
                 panelAgregarAlmacen.setControlador(new ControladorAniadirAlmacen(panelAgregarAlmacen));
                 panelAlmacen.setPanelDerecho(panelAgregarAlmacen);
+                panelAlmacen.getBotonAgregar().setEnabled(false);
+                panelAlmacen.getBotonBuscar().setEnabled(true);
                 break;
                 
             case "ventana_buscar":
@@ -57,6 +60,8 @@ public class ControladorAlmacen implements ActionListener{
                 @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class};
                 
                 panelBuscarAlmacen.cargarTabla(obtenerListaJuegos(),columnas, types);
+                panelAlmacen.getBotonAgregar().setEnabled(true);
+                panelAlmacen.getBotonBuscar().setEnabled(false);
                 break;
         }
     }

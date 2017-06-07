@@ -20,7 +20,7 @@ public class ControladorUsuario implements ActionListener {
     private final JDialog ventana;
     private final VistaAgregarUsuario panelAgregarUsuario;
     private final VistaBuscarUsuario panelBuscarUsuario;
-            
+    
     public ControladorUsuario(VistaUsuario panelUsuario, JDialog ventana){
         this.ventana = ventana;
         this.panelBuscarUsuario = new VistaBuscarUsuario();
@@ -28,6 +28,7 @@ public class ControladorUsuario implements ActionListener {
         this.panelUsuario = panelUsuario;
         this.panelUsuario.getBigPanel().controladorSalir(this, "atras");
         this.panelUsuario.getBigPanel().controladorAyuda(this, "ayuda");
+        this.panelUsuario.setActivarBotones();
         HibernateUtil.buildSessionFactory();
     }
 
@@ -43,12 +44,15 @@ public class ControladorUsuario implements ActionListener {
                 break;
                 
             case "ventana_agregar":
-                panelAgregarUsuario.setControlador(new ControladorAniadirUsuario(panelAgregarUsuario));
+                panelAgregarUsuario.setControlador(new ControladorBuscarUsuario(panelBuscarUsuario, this.panelUsuario));
                 panelUsuario.setPanelDerecho(panelAgregarUsuario);
+                panelUsuario.getBotonAgregar().setEnabled(false);
+                panelUsuario.getBotonBuscar().setEnabled(true);
+                
                 break;
                 
             case "ventana_buscar":
-                panelBuscarUsuario.setControlador(new ControladorBuscarUsuario(panelBuscarUsuario, panelUsuario));
+                panelBuscarUsuario.setControlador(new ControladorAniadirUsuario(panelAgregarUsuario));
                 panelUsuario.setPanelDerecho(panelBuscarUsuario);
                 panelBuscarUsuario.cargarFiltro(obtenerColumnas());
                 
@@ -56,6 +60,8 @@ public class ControladorUsuario implements ActionListener {
                 @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
                 
                 panelBuscarUsuario.cargarTabla(obtenerListaClientes(),columnas, types);
+                panelUsuario.getBotonAgregar().setEnabled(true);
+                panelUsuario.getBotonBuscar().setEnabled(false);
                 break;
         }
     }
