@@ -1,73 +1,144 @@
-
 -- phpMyAdmin SQL Dump
--- version 3.5.2.2
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: May 10, 2017 at 08:30 AM
--- Server version: 10.0.28-MariaDB
--- PHP Version: 5.2.17
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 07-06-2017 a las 11:21:45
+-- Versión del servidor: 10.1.21-MariaDB
+-- Versión de PHP: 5.6.30
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `u329292900_proye`
+-- Base de datos: `hibernate`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `CLIENTE`
+-- Estructura de tabla para la tabla `cliente`
 --
 
-CREATE TABLE IF NOT EXISTS `CLIENTE` (
+CREATE TABLE `cliente` (
   `ID` int(11) NOT NULL,
-  `DNI` varchar(9) COLLATE utf8_unicode_ci NOT NULL,
-  `NOMBRE` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `APELLIDO` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `DNI` varchar(9) NOT NULL,
+  `NOMBRE` varchar(50) NOT NULL,
+  `APELLIDO` varchar(50) NOT NULL,
   `FECHA_NACIMIENTO` date NOT NULL,
-  `SEXO` int(1) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `TELEFONO` varchar(9) NOT NULL,
+  `DIRECCION` varchar(150) NOT NULL,
+  `SEXO` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `VENTA`
+-- Estructura de tabla para la tabla `juego`
 --
 
-CREATE TABLE IF NOT EXISTS `VENTA` (
+CREATE TABLE `juego` (
   `ID` int(11) NOT NULL,
-  `CODIGO` int(11) NOT NULL,
+  `NOMBRE` varchar(150) NOT NULL,
+  `EDAD_MINIMA` int(2) NOT NULL,
+  `PRECIO` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `linea_venta`
+--
+
+CREATE TABLE `linea_venta` (
+  `ID` int(11) DEFAULT NULL,
+  `ID_JUEGO` int(11) NOT NULL,
+  `ID_VENTA` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_juego`
+--
+
+CREATE TABLE `tipo_juego` (
+  `ID` int(11) NOT NULL,
+  `TIPO` int(11) NOT NULL,
+  `ID_JUEGO` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `venta`
+--
+
+CREATE TABLE `venta` (
+  `ID` int(11) NOT NULL,
   `FECHA` date NOT NULL,
-  `ID_CLIENTE` int(11) NOT NULL,
-  `ID_VIDEOJUEGO` int(11) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
+  `ID_CLIENTE` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `VIDEOJUEGO`
+-- Índices para tablas volcadas
 --
 
-CREATE TABLE IF NOT EXISTS `VIDEOJUEGO` (
-  `ID` int(11) NOT NULL,
-  `CODIGO` int(11) NOT NULL,
-  `NOMBRE` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
-  `TIPO` int(2) NOT NULL,
-  `EDAD_MINIMA` int(3) NOT NULL,
-  `PRECIO` int(11) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+--
+-- Indices de la tabla `cliente`
+--
+ALTER TABLE `cliente`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `DNI` (`DNI`);
 
+--
+-- Indices de la tabla `juego`
+--
+ALTER TABLE `juego`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indices de la tabla `tipo_juego`
+--
+ALTER TABLE `tipo_juego`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indices de la tabla `venta`
+--
+ALTER TABLE `venta`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `cliente`
+--
+ALTER TABLE `cliente`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `juego`
+--
+ALTER TABLE `juego`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `tipo_juego`
+--
+ALTER TABLE `tipo_juego`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `venta`
+--
+ALTER TABLE `venta`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
