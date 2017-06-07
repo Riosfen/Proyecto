@@ -15,10 +15,7 @@ public class Principal {
 	public static void main(String[] args) {
 
         HibernateUtil.buildSessionFactory();
-        HibernateUtil.openSessionAndBindToThread();
 		
-		//Toolkit t = Toolkit.getDefaultToolkit();
-        //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         JFrame ventana = new JFrame();
         BigPanel barra = new BigPanel(new ImageIcon(URL_TIENDA), "Tienda de videojuegos", BigPanel.tipoVentana.CERRAR);
         VistaPrincipal vp = new VistaPrincipal(barra);
