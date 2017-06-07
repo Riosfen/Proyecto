@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+  
+  <!-- 	Para utilizarlos, a la hora de hacer una consulta, utilizar este metodo:
+  		session.getNamedQuery("name"); 
+  		
+  		Tambien se puede parametrizar de 2 formas, con el ? o con :nombre:
+  		<query name="findAllCliente"><![CDATA[SELECT c FROM Cliente c WHERE c.nombre = ?]]></query>
+  		<query name="findAllCliente"><![CDATA[SELECT c FROM Cliente c WHERE c.nombre = :nombre]]></query>
+  			- en java se pondría setParameter, en el caso de "?" (n, variable) n empieza desde 0
+  			- en el caso de ":nombre" (nombre, variable)															-->
+  
+  <!-- Cliente -->
+  
+  <query name="findAllCliente"><![CDATA[SELECT c FROM Cliente c]]></query>
+  
+  
+  <!-- Juego -->
+  
+  <query name="findAllJuego"><![CDATA[SELECT j FROM Juego j]]></query>
+  
+  
+  <!-- LineaVenta -->
+  
+  <query name="findAllLieaVenta"><![CDATA[SELECT lv FROM LineaVenta lv]]></query>
+  
+  
+  <!-- TipoJuego -->
+  
+  <query name="findAllTipoJuego"><![CDATA[SELECT tj FROM TipoJuego ctj]]></query>
+  
+  
+  <!-- Venta -->
+  
+  <query name="findAllVenta"><![CDATA[SELECT v FROM Venta v]]></query>
+  
+  
+  <!-- Otros -->
+  
+ </hibernate-mapping>

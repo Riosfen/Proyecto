@@ -1,0 +1,18 @@
+package persistencia;
+
+public enum TipoJuego {
+
+	SHOOTER,
+	ACCION,
+	ESTRATEGIA,
+	SIMULACION,
+	DEPORTES,
+	CARRERAS,
+	AVENTURAS,
+	ROL,
+	SANDBOX,
+	MUSICAL,
+	AGILIDAD,
+	EDUCACION
+	
+}
