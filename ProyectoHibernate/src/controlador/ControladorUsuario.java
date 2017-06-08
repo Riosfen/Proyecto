@@ -44,7 +44,7 @@ public class ControladorUsuario implements ActionListener {
                 break;
                 
             case "ventana_agregar":
-                panelAgregarUsuario.setControlador(new ControladorBuscarUsuario(panelBuscarUsuario, this.panelUsuario));
+                panelAgregarUsuario.setControlador(new ControladorAniadirUsuario(panelAgregarUsuario));
                 panelUsuario.setPanelDerecho(panelAgregarUsuario);
                 panelUsuario.getBotonAgregar().setEnabled(false);
                 panelUsuario.getBotonBuscar().setEnabled(true);
@@ -52,7 +52,7 @@ public class ControladorUsuario implements ActionListener {
                 break;
                 
             case "ventana_buscar":
-                panelBuscarUsuario.setControlador(new ControladorAniadirUsuario(panelAgregarUsuario));
+                panelBuscarUsuario.setControlador(new ControladorBuscarUsuario(panelBuscarUsuario, panelUsuario));
                 panelUsuario.setPanelDerecho(panelBuscarUsuario);
                 panelBuscarUsuario.cargarFiltro(obtenerColumnas());
                 
