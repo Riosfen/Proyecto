@@ -42,7 +42,7 @@ public class ControladorBuscarAlmacen implements ActionListener {
 				actualizarTabla();
 	            
 			} catch (Exception e2) {
-				JOptionPane.showMessageDialog(null, "No se ha encontrado el juego seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "No se ha encontrado el artículo seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
 			}
             
 			break;
@@ -53,7 +53,7 @@ public class ControladorBuscarAlmacen implements ActionListener {
 				actualizarTabla();
 				
 			} catch (Exception e2) {
-				JOptionPane.showMessageDialog(null, "No se ha encontrado el juego seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "No se ha encontrado el artículo seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
 			}
 			
 			
@@ -63,7 +63,9 @@ public class ControladorBuscarAlmacen implements ActionListener {
 			String[] cabecera = new String[]{"Nombre", "Edad mínima", "Precio"};
 			@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class};
 			
-			if(datos != null){
+			if (datos == null){
+				JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelBuscarAlmacen.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+			}else{
 				panelBuscarAlmacen.cargarTabla(datos, cabecera, types);
 			}
 			break;
