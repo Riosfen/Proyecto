@@ -32,7 +32,7 @@ public class Cliente implements Serializable {
 
 	@NotNull
 	@Column(name = "DNI")
-	@Size(min = 9, max = 9)
+	@Size(message= "El DNI debe contener 9 carácteres")
 	private String dni;
 
 	@NotNull
@@ -52,7 +52,7 @@ public class Cliente implements Serializable {
 
 	@NotNull
 	@Column(name = "TELEFONO")
-	@Size(min = 9, max = 9)
+	@Size(message= "El Teléfono debe contener 9 carácteres")
 	private String telefono;
 
 	@NotNull
