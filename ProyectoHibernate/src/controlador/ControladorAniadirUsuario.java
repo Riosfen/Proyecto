@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
+import org.hibernate.exception.ConstraintViolationException;
 
 import patronDAO.ClienteDAO;
 import persistencia.Cliente;
@@ -31,21 +32,21 @@ public class ControladorAniadirUsuario implements ActionListener{
         	try {
                 agregarUsuario();
 				
-			} catch (HibernateException e2) {
-				JOptionPane.showMessageDialog(panelAgregarUsuario, e2);
+			} catch (Exception e2) {
+				JOptionPane.showMessageDialog(null, e2.getMessage(), "ERROR!!", JOptionPane.ERROR_MESSAGE);
+				//TODO Ivan me va a decir como hacer pa que no me salgan cosas raras
 			}
             panelAgregarUsuario.limpiarDatos();
             break;
         
         case "limpiar":
         	System.out.println("limpiar datos");
-            panelAgregarUsuario.limpiarDatos();
             break;
 		}
 		
 	}
 
-	private void agregarUsuario() throws HibernateException {
+	private void agregarUsuario() {
 
 		String nombre = panelAgregarUsuario.getNombre();
 		String dni = panelAgregarUsuario.getDni();

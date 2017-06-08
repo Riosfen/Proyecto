@@ -3,15 +3,11 @@ package controlador;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import modelo.BigPanel;
-import patronDAO.JuegoDAO;
-import persistencia.HibernateUtil;
-import persistencia.Juego;
 import vista.VistaAlmacen;
 import vista.VistaFactura;
 import vista.VistaPrincipal;
@@ -61,6 +57,7 @@ public class ControladorPrincipal implements ActionListener{
                 ControladorAlmacen ctrAlmacen= new ControladorAlmacen(panelAlmacen, ventanaAnnadir);
                 panelAlmacen.setControlador(ctrAlmacen);
                 
+                
                 break;
             case "usuario":
                 
@@ -96,6 +93,7 @@ public class ControladorPrincipal implements ActionListener{
                 
                 ControladorFactura ctrFactura= new ControladorFactura(panelFactura, ventanaAnnadir);
                 panelFactura.setControlador(ctrFactura);
+                
                 break;
             case "venta":
                 
@@ -114,46 +112,9 @@ public class ControladorPrincipal implements ActionListener{
                 ControladorVenta ctrVenta= new ControladorVenta(panelVenta, ventanaAnnadir);
                 panelVenta.setControlador(ctrVenta);
                 
-
-                panelVenta.cargarFiltro(obtenerColumnas());
-                String[] columnas = new String[]{"Nombre", "Edad mínima", "Precio"};
-                @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class};
-                panelVenta.cargarTabla1(obtenerListaArticulos(),columnas, types);
-                
-                @SuppressWarnings("rawtypes") Class[] types2 = new Class[] {String.class, String.class, String.class};
-                panelVenta.cargarTabla2(new Object[0][0], types2);
-                
-                
                 break;
         }
         
-    }
-
-    private Object[][] obtenerListaArticulos() {
-		HibernateUtil.openSessionAndBindToThread();
-		Object[][] datos;
-		try {
-			List<Juego> juegos = new JuegoDAO().obtenerTodo();
-			datos = new Object[juegos.size()][3];
-			
-			for (int i = 0; i < juegos.size(); i++){
-				datos[i][0] = juegos.get(i).getNombre();
-				datos[i][1] = juegos.get(i).getEdadMinima();
-				datos[i][2] = juegos.get(i).getPrecio();
-				//datos[i][3] = juegos.get(i).getTipoJuego();
-			}
-			
-		} finally {
-			HibernateUtil.closeSessionAndUnbindFromThread();
-		}
-		
-		return datos;
-	}
-
-	private String[] obtenerColumnas() {
-		return new String[]{"NOMBRE","EDAD","PRECIO"};
-	}
-    
-    
+    } 
     
 }

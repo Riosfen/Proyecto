@@ -32,47 +32,61 @@ public class ControladorBuscarUsuario implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()){
 		case "editar":
-			try {
-				Cliente cliente = obtenerClienteTabla();
-				this.panelModificarUsuario = new VistaModificarUsuario(cliente);
-	            panelModificarUsuario.setControlador(new ControladorModificarUsuario(panelModificarUsuario));
-	            panelUsuario.setPanelDerecho(panelModificarUsuario);
-	
-				actualizarTabla();
-				
-			} catch (Exception e2) {
-				JOptionPane.showMessageDialog(null, "No se ha encontrado al cliente seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-			}
+			editarCliente();
             
 			break;
 		case "eliminar":
-			try {
-				new ClienteDAO().borrar(obtenerClienteTabla());
-				
-				actualizarTabla();
-				
-			} catch (Exception e2) {
-				JOptionPane.showMessageDialog(null, "No se ha encontrado al cliente seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-			}
+			eliminarCliente();
 			
 			break;
 		case "factura":
 			System.out.println("factura");
 			break;
 		case "buscar":
-			Object[][] datos = buscarCliente(panelBuscarUsuario.getFiltro());
-			String[] cabecera = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
-			@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
-			
-			if (datos == null){
-				JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelBuscarUsuario.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-			}else{
-				panelBuscarUsuario.cargarTabla(datos, cabecera, types);
-			}
+			buscarCliente();
 			break;
 		}
 	}
 
+	private void buscarCliente() {
+		Object[][] datos = buscarCliente(panelBuscarUsuario.getFiltro());
+		String[] cabecera = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
+		@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
+		
+		if (datos == null){
+			JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelBuscarUsuario.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		}else{
+			panelBuscarUsuario.cargarTabla(datos, cabecera, types);
+		}
+	}
+
+	private void eliminarCliente() {
+		try {
+			new ClienteDAO().borrar(obtenerClienteTabla());
+			
+			actualizarTabla();
+			
+		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(null, "No se ha encontrado al cliente seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void editarCliente() {
+		try {
+			Cliente cliente = obtenerClienteTabla();
+			this.panelModificarUsuario = new VistaModificarUsuario(cliente);
+		    panelModificarUsuario.setControlador(new ControladorModificarUsuario(panelModificarUsuario));
+		    panelUsuario.setPanelDerecho(panelModificarUsuario);
+
+			actualizarTabla();
+			
+		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(null, "No se ha encontrado al cliente seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	
+	
 	private void actualizarTabla() {
 		Object[][] datos2 = buscarCliente("TODO");
 		String[] cabecera2 = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};

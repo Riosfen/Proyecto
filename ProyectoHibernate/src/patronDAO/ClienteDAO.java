@@ -58,5 +58,13 @@ public class ClienteDAO extends GenericDAO<Cliente> {
 	
 	return query.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Cliente> obtenerParecido(String filtro) {
+		Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+		Query query = sesion.createQuery("SELECT c FROM Cliente c WHERE c.dni LIKE '%"+filtro+"%' OR c.nombre LIKE '%"+filtro+"%' OR c.apellido LIKE '%"+filtro+"%' OR c.telefono LIKE '%"+filtro+"%'");
+		
+		return query.list();
+	}
 	
 }
