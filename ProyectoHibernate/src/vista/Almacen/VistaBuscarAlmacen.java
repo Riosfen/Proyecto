@@ -17,9 +17,13 @@ public class VistaBuscarAlmacen extends javax.swing.JPanel {
     public void setControlador(ActionListener e){
         jButtonEditar.addActionListener(e);
         jButtonEliminar.addActionListener(e);
+        jButtonBuscar.addActionListener(e);
+        jTextFieldFiltro.addActionListener(e);
         
         jButtonEditar.setActionCommand("editar");
         jButtonEliminar.setActionCommand("eliminar");
+        jButtonBuscar.setActionCommand("buscar");
+        jTextFieldFiltro.setActionCommand("buscar");
         
     }
     
