@@ -4,13 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import persistencia.HibernateUtil;
-import vista.Ventana.VistaBuscarUsuarioEspecífico;
+import vista.Ventana.VistaBuscarUsuarioEspecifico;
 
 public class ControladorBuscarUsuarioEspecifico implements ActionListener {
 
-	public VistaBuscarUsuarioEspecífico panelBuscarUsuario;
+	public VistaBuscarUsuarioEspecifico panelBuscarUsuario;
 	
-	public ControladorBuscarUsuarioEspecifico(VistaBuscarUsuarioEspecífico panelBuscarUsuario) {
+	public ControladorBuscarUsuarioEspecifico(VistaBuscarUsuarioEspecifico panelBuscarUsuario) {
 		this.panelBuscarUsuario = panelBuscarUsuario;
         HibernateUtil.buildSessionFactory();
 		

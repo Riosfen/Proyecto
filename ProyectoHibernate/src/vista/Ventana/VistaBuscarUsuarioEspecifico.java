@@ -7,9 +7,9 @@ import javax.swing.border.EmptyBorder;
 import modelo.ModeloTablaPersonal;
 
 @SuppressWarnings("serial")
-public class VistaBuscarUsuarioEspecífico extends javax.swing.JPanel {
+public class VistaBuscarUsuarioEspecifico extends javax.swing.JPanel {
 
-    public VistaBuscarUsuarioEspecífico() {
+    public VistaBuscarUsuarioEspecifico() {
         initComponents();
         this.setBorder(new EmptyBorder(80, 80, 80, 80));
     }

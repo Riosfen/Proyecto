@@ -17,14 +17,14 @@ import persistencia.HibernateUtil;
 import persistencia.Juego;
 
 import vista.VistaVenta;
-import vista.Ventana.VistaBuscarUsuarioEspecífico;
+import vista.Ventana.VistaBuscarUsuarioEspecifico;
 import vista.Ventana.VistaVentaPrincipal;
 
 public class ControladorVenta implements ActionListener{
     
     private final VistaVenta panelVenta;
     private final JDialog ventna;
-    private VistaBuscarUsuarioEspecífico panelBuscarUsuario;
+    private VistaBuscarUsuarioEspecifico panelBuscarUsuario;
     private VistaVentaPrincipal panelVentanaPrincipal;
     
     private Cliente cliente;
@@ -32,7 +32,7 @@ public class ControladorVenta implements ActionListener{
     public ControladorVenta(VistaVenta panelVenta, JDialog ventana){
         this.ventna = ventana;
         this.panelVenta = panelVenta;
-        this.panelBuscarUsuario = new VistaBuscarUsuarioEspecífico();
+        this.panelBuscarUsuario = new VistaBuscarUsuarioEspecifico();
         this.panelVentanaPrincipal = new VistaVentaPrincipal();
         this.panelVenta.getBigPanel().controladorSalir(this, "atras");
         this.panelVenta.getBigPanel().controladorAyuda(this, "ayuda");
@@ -51,7 +51,7 @@ public class ControladorVenta implements ActionListener{
 	private void cargarFiltroJuego() {
 		panelVentanaPrincipal.cargarFiltro(obtenerColumnasJuego());
         
-        String[] columnas = new String[]{"Nombre", "Edad mínima", "Precio"};
+        String[] columnas = new String[]{"Nombre", "Edad mï¿½nima", "Precio"};
         @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class};
         
         panelVentanaPrincipal.cargarTabla1(obtenerListaJuegos(),columnas, types);
@@ -64,10 +64,10 @@ public class ControladorVenta implements ActionListener{
                 ventna.dispose();
                 break;
             case "ayuda":
-                System.out.println("no hay ayuda todavía");//TODO hacer ayuda
+                System.out.println("no hay ayuda todavï¿½a");//TODO hacer ayuda
                 break;
             case "buscarArticulo":
-        		buscarArtículo();
+        		buscarArticulo();
         			
                 break;
             case "buscarUsuario":
@@ -79,14 +79,14 @@ public class ControladorVenta implements ActionListener{
             	
                 break;
             case "limpiar":
-            	int resul = JOptionPane.showConfirmDialog(null, "¿Seguro que desea borrar toda la compra?", "AVISO!!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            	int resul = JOptionPane.showConfirmDialog(null, "ï¿½Seguro que desea borrar toda la compra?", "AVISO!!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             	if (resul == 0){
             		panelVentanaPrincipal.limpiarTablaCompra();
             	}
             	
                 break;
             case "aniadirArticulo":
-            	//TODO añadir articulo, se obtiene el nombre del producto que es unico y el precio, se le introduce la cantidad que se obtiene del jspiner y se inserta
+            	//TODO aï¿½adir articulo, se obtiene el nombre del producto que es unico y el precio, se le introduce la cantidad que se obtiene del jspiner y se inserta
             	
                 break;
             case "aumentarCantidad":
@@ -134,7 +134,7 @@ public class ControladorVenta implements ActionListener{
 		panelVenta.setPanelDerecho(panelBuscarUsuario);
 		panelBuscarUsuario.cargarFiltro(obtenerColumnas());
 		
-		String[] columnas = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
+		String[] columnas = new String[]{"DNI", "Apellidos", "Nombre", "Telï¿½fono", "Direcciï¿½n", "Fecha de Nacimiento"};
 		@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
 		
 		panelBuscarUsuario.cargarTabla(obtenerListaClientes(),columnas, types);
@@ -167,7 +167,7 @@ public class ControladorVenta implements ActionListener{
 
 	private void buscarCliente() {
 		Object[][] datos = buscarCliente(panelBuscarUsuario.getFiltro());
-		String[] cabecera = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
+		String[] cabecera = new String[]{"DNI", "Apellidos", "Nombre", "Telï¿½fono", "Direcciï¿½n", "Fecha de Nacimiento"};
 		@SuppressWarnings("rawtypes") Class[] type = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
 		
 		if (datos == null){
@@ -258,9 +258,9 @@ public class ControladorVenta implements ActionListener{
 		return datos;
 	}
 
-	private void buscarArtículo() {
+	private void buscarArticulo() {
 		Object[][] datos = buscarJuego(panelVentanaPrincipal.getFiltro());
-		String[] cabecera = new String[]{"Nombre", "Edad mínima", "Precio"};
+		String[] cabecera = new String[]{"Nombre", "Edad mï¿½nima", "Precio"};
 		@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class};
 		
 		if (datos == null){
