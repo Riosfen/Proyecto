@@ -7,7 +7,6 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
-import org.hibernate.exception.ConstraintViolationException;
 
 import patronDAO.ClienteDAO;
 import persistencia.Cliente;

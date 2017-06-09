@@ -2,18 +2,10 @@ package vista;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
-import java.util.StringTokenizer;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
 import modelo.BigPanel;
-import modelo.ModeloTablaPersonal;
 
 @SuppressWarnings("serial")
 public class VistaVenta extends javax.swing.JPanel {

@@ -32,7 +32,6 @@ public class ControladorVenta implements ActionListener{
     public ControladorVenta(VistaVenta panelVenta, JDialog ventana){
         this.ventna = ventana;
         this.panelVenta = panelVenta;
-        this.panelVentanaPrincipal = panelVentanaPrincipal;
         this.panelBuscarUsuario = new VistaBuscarUsuarioEspecífico();
         this.panelVentanaPrincipal = new VistaVentaPrincipal();
         this.panelVenta.getBigPanel().controladorSalir(this, "atras");
@@ -65,36 +64,48 @@ public class ControladorVenta implements ActionListener{
                 ventna.dispose();
                 break;
             case "ayuda":
-                System.out.println("no hay ayuda todavía");
+                System.out.println("no hay ayuda todavía");//TODO hacer ayuda
                 break;
             case "buscarArticulo":
-        			buscarArtículo();
+        		buscarArtículo();
         			
                 break;
             case "buscarUsuario":
-            	
-            	panelVenta.setPanelDerecho(panelBuscarUsuario);
-            	panelBuscarUsuario.cargarFiltro(obtenerColumnas());
-                
-                String[] columnas = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
-                @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
-                
-                panelBuscarUsuario.cargarTabla(obtenerListaClientes(),columnas, types);
+            	buscarUsuario();
             	
                 break;
             case "cobrar":
-            	//TODO aqui se obtiene el cliente
+            	//TODO aqui se utiliza el cliente para agregarlo a una venta, puede ser null
             	
                 break;
             case "limpiar":
+            	int resul = JOptionPane.showConfirmDialog(null, "¿Seguro que desea borrar toda la compra?", "AVISO!!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            	if (resul == 0){
+            		panelVentanaPrincipal.limpiarTablaCompra();
+            	}
+            	
                 break;
             case "aniadirArticulo":
+            	//TODO añadir articulo, se obtiene el nombre del producto que es unico y el precio, se le introduce la cantidad que se obtiene del jspiner y se inserta
+            	
                 break;
             case "aumentarCantidad":
+            	int linea = panelVentanaPrincipal.getselectedRowTablaCompra();
+            	if (linea != -1){
+                	panelVentanaPrincipal.setCantidadTablaCompraMas(linea);
+            	}
+            	
                 break;
             case "disminuirCanitdad":
+            	int linea2 = panelVentanaPrincipal.getselectedRowTablaCompra();
+            	if (linea2 != -1){
+                	panelVentanaPrincipal.setCantidadTablaCompraMenos(linea2);
+            	}
+            	
                 break;
             case "eliminar":
+            	panelVentanaPrincipal.eliminarFilaTablaCompra(panelVentanaPrincipal.getselectedRowTablaCompra());
+            	
                 break;
                 //
                 // Esta parte es de la ventana de seleccionar usuario
@@ -118,6 +129,16 @@ public class ControladorVenta implements ActionListener{
             	break;
         }
     }
+
+	private void buscarUsuario() {
+		panelVenta.setPanelDerecho(panelBuscarUsuario);
+		panelBuscarUsuario.cargarFiltro(obtenerColumnas());
+		
+		String[] columnas = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
+		@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
+		
+		panelBuscarUsuario.cargarTabla(obtenerListaClientes(),columnas, types);
+	}
     
     private Object[][] obtenerListaJuegos() {
 		HibernateUtil.openSessionAndBindToThread();

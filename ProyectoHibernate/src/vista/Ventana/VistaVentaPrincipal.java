@@ -1,15 +1,12 @@
 package vista.Ventana;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
-import java.util.StringTokenizer;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
-import modelo.BigPanel;
 import modelo.ModeloTablaPersonal;
 
 @SuppressWarnings("serial")
@@ -96,9 +93,42 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
         jTable4.setModel(modeloTablaCola);
     }
     
+	public void limpiarTablaCompra() {
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+		while (modelo.getRowCount()>0) modelo.removeRow(0);
+		
+	}
+    
     public ModeloTablaPersonal getModeloTabla(){
     	return modeloTablaCola;
     }
+
+	public int getSizeRowTablaCompra() {
+		return jTable4.getRowCount();
+	}
+	
+	public int getselectedRowTablaCompra() {
+		return jTable4.getSelectedRow();
+	}
+
+	public void setCantidadTablaCompraMas(int fila) {
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+		int valor = (int) modelo.getValueAt(fila, 1) + 1;
+		
+		jTable4.setValueAt(valor, fila, 1);
+	}
+	
+	public void setCantidadTablaCompraMenos(int fila) {
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+		int valor = (int) modelo.getValueAt(fila, 1) + 1;
+		
+		jTable4.setValueAt(valor, fila, 1);
+	}
+	
+	public void eliminarFilaTablaCompra(int fila) {
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+		modelo.removeRow(fila);
+	}
 
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -304,6 +334,8 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
         add(jButtonEliminar, gridBagConstraints);
 
         jSpinField1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jSpinField1.setValue(1);
+        jSpinField1.setMinimum(1);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
@@ -336,4 +368,5 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldFiltro;
     private javax.swing.JTextField jTextFieldFiltroNombre;
     // End of variables declaration                   
+
 }
