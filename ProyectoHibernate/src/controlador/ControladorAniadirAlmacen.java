@@ -56,8 +56,9 @@ public class ControladorAniadirAlmacen implements ActionListener {
 		int edadMin = panelAgregarAlmacen.getEdadMinima();
 		double precio = panelAgregarAlmacen.getPrecio();
 		TipoJuego tipo = panelAgregarAlmacen.getTipoJuego();
+		int stock = panelAgregarAlmacen.getStock();
 
-		Juego nuevoJuego = new Juego(nombre,edadMin,precio,tipo);
+		Juego nuevoJuego = new Juego(nombre,edadMin,precio,tipo, stock);
 		
 		try {
 			HibernateUtil.openSessionAndBindToThread();

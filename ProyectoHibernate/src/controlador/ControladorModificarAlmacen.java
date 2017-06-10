@@ -47,6 +47,7 @@ public class ControladorModificarAlmacen implements ActionListener {
 				juego.setEdadMinima(panelModificarAlmacen.getEdadMinima());
 				juego.setPrecio(panelModificarAlmacen.getPrecio());
 				juego.setTipoJuego(panelModificarAlmacen.getTipoJuego());
+				juego.setStock(panelModificarAlmacen.getStock());
 				
 				JuegoDAO juegoDao = new JuegoDAO();
 				juegoDao.actualizar(juego);

@@ -66,6 +66,16 @@ public class VistaAgregarAlmacen extends javax.swing.JPanel {
         return tipo;
         
     }
+
+	public int getStock() {
+    	int resul = -1;
+    	
+		try {
+			resul = Integer.valueOf(JFormattedTextFieldStock.getText().toString());
+		} catch (NumberFormatException e) {}
+		
+    	return resul;
+	}
     
     public void limpiarDatos() {
         jFormattedTextFieldEdadMinima.setText("");
@@ -82,6 +92,7 @@ public class VistaAgregarAlmacen extends javax.swing.JPanel {
         jLabelApellido = new javax.swing.JLabel();
         jLabelTelefono = new javax.swing.JLabel();
         jLabelDireccion = new javax.swing.JLabel();
+        jLabelStock = new javax.swing.JLabel();
         jTextFieldNombre = new javax.swing.JTextField();
         jButtonAgregar = new javax.swing.JButton();
         jButtonLimpiar = new javax.swing.JButton();
@@ -93,6 +104,7 @@ public class VistaAgregarAlmacen extends javax.swing.JPanel {
         jLabelIdArticulo = new javax.swing.JLabel();
         jFormattedTextFieldPrecio = new javax.swing.JFormattedTextField();
         jFormattedTextFieldEdadMinima = new javax.swing.JFormattedTextField();
+        JFormattedTextFieldStock = new javax.swing.JFormattedTextField();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -145,6 +157,16 @@ public class VistaAgregarAlmacen extends javax.swing.JPanel {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         add(jLabelDireccion, gridBagConstraints);
+        
+        jLabelStock.setFont(new java.awt.Font("Tahoma", 0, 24));
+        jLabelStock.setText("Stock");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        add(jLabelStock, gridBagConstraints);
 
         jTextFieldNombre.setFont(new java.awt.Font("Tahoma", 0, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -216,6 +238,17 @@ public class VistaAgregarAlmacen extends javax.swing.JPanel {
         gridBagConstraints.weighty = 0.1;
         add(JComboBoxTipoJuego, gridBagConstraints);
 
+        JFormattedTextFieldStock.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("##0"))));
+        JFormattedTextFieldStock.setFont(new java.awt.Font("Tahoma", 0, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        add(JFormattedTextFieldStock, gridBagConstraints);
+
         jLabelIdArticulo.setFont(new java.awt.Font("Tahoma", 0, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -260,6 +293,7 @@ public class VistaAgregarAlmacen extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelApellido;
     private javax.swing.JLabel jLabelDescripcion;
     private javax.swing.JLabel jLabelDireccion;
+    private javax.swing.JLabel jLabelStock;
     private javax.swing.JLabel jLabelDni;
     private javax.swing.JLabel jLabelIdArticulo;
     private javax.swing.JLabel jLabelImagen;
@@ -268,6 +302,7 @@ public class VistaAgregarAlmacen extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JFormattedTextField JFormattedTextFieldStock;
 
 
 }

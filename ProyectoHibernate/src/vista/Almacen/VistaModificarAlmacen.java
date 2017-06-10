@@ -29,6 +29,7 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
 		jFormattedTextFieldEdadMinima1.setText(String.valueOf(juego.getEdadMinima()));
 		jFormattedTextFieldPrecio1.setText(String.valueOf(juego.getPrecio()));
 		JComboBoxTipoJuego.setSelectedItem(juego.getTipoJuego());
+		JFormattedTextFieldStock.setText(String.valueOf(juego.getStock()));
 		
 	}
 
@@ -65,6 +66,16 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
 		jFormattedTextFieldEdadMinima1.setText("");
 		jFormattedTextFieldPrecio1.setText("");
 	}
+	
+	public int getStock() {
+    	int resul = -1;
+    	
+		try {
+			resul = Integer.valueOf(JFormattedTextFieldStock.getText().toString());
+		} catch (NumberFormatException e) {}
+		
+    	return resul;
+	}
     
 	private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -74,6 +85,7 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
         jLabelApellido1 = new javax.swing.JLabel();
         jLabelTelefono1 = new javax.swing.JLabel();
         jLabelDireccion1 = new javax.swing.JLabel();
+        jLabelStock = new javax.swing.JLabel();
         jTextFieldNombre1 = new javax.swing.JTextField();
         jButtonAgregar1 = new javax.swing.JButton();
         jButtonLimpiar1 = new javax.swing.JButton();
@@ -85,6 +97,7 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
         jLabelIdArticulo1 = new javax.swing.JLabel();
         jFormattedTextFieldPrecio1 = new javax.swing.JFormattedTextField();
         jFormattedTextFieldEdadMinima1 = new javax.swing.JFormattedTextField();
+        JFormattedTextFieldStock = new javax.swing.JFormattedTextField();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -137,6 +150,16 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 0);
         add(jLabelDireccion1, gridBagConstraints);
+
+        jLabelStock.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabelStock.setText("Stock");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 0);
+        add(jLabelStock, gridBagConstraints);
 
         jTextFieldNombre1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -210,6 +233,17 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         add(JComboBoxTipoJuego, gridBagConstraints);
 
+        JFormattedTextFieldStock.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("##0"))));
+        JFormattedTextFieldStock.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
+        add(JFormattedTextFieldStock, gridBagConstraints);
+
         jLabelIdArticulo1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -248,9 +282,11 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
     private javax.swing.JButton jButtonLimpiar1;
     private javax.swing.JComboBox<TipoJuego> JComboBoxTipoJuego;
     private javax.swing.JFormattedTextField jFormattedTextFieldEdadMinima1;
+    private javax.swing.JFormattedTextField JFormattedTextFieldStock;
     private javax.swing.JFormattedTextField jFormattedTextFieldPrecio1;
     private javax.swing.JLabel jLabelApellido1;
     private javax.swing.JLabel jLabelDescripcion1;
+    private javax.swing.JLabel jLabelStock;
     private javax.swing.JLabel jLabelDireccion1;
     private javax.swing.JLabel jLabelDni1;
     private javax.swing.JLabel jLabelIdArticulo1;
