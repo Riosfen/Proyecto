@@ -29,6 +29,9 @@ public class ControladorUsuario implements ActionListener {
         this.panelUsuario.getBigPanel().controladorSalir(this, "atras");
         this.panelUsuario.getBigPanel().controladorAyuda(this, "ayuda");
         this.panelUsuario.setActivarBotones();
+        
+        panelAgregarUsuario.setControlador(new ControladorAniadirUsuario(panelAgregarUsuario));
+        panelBuscarUsuario.setControlador(new ControladorBuscarUsuario(panelBuscarUsuario, panelUsuario));
         HibernateUtil.buildSessionFactory();
     }
 
@@ -44,7 +47,6 @@ public class ControladorUsuario implements ActionListener {
                 break;
                 
             case "ventana_agregar":
-                panelAgregarUsuario.setControlador(new ControladorAniadirUsuario(panelAgregarUsuario));
                 panelUsuario.setPanelDerecho(panelAgregarUsuario);
                 panelUsuario.getBotonAgregar().setEnabled(false);
                 panelUsuario.getBotonBuscar().setEnabled(true);
@@ -52,7 +54,6 @@ public class ControladorUsuario implements ActionListener {
                 break;
                 
             case "ventana_buscar":
-                panelBuscarUsuario.setControlador(new ControladorBuscarUsuario(panelBuscarUsuario, panelUsuario));
                 panelUsuario.setPanelDerecho(panelBuscarUsuario);
                 panelBuscarUsuario.cargarFiltro(obtenerColumnas());
                 

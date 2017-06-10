@@ -1,14 +1,12 @@
 package vista.Almacen;
 
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-import javax.swing.JCheckBox;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.border.EmptyBorder;
 
 import persistencia.Juego;
 import persistencia.TipoJuego;
-import persistencia.TipoJuegos;
 
 @SuppressWarnings("serial")
 public class VistaModificarAlmacen extends javax.swing.JPanel {
@@ -20,6 +18,8 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
         initComponents();
 		inicializarJuego();
         this.setBorder(new EmptyBorder(80, 80, 80, 80));
+        JComboBoxTipoJuego.setModel(new DefaultComboBoxModel<TipoJuego>(TipoJuego.values()));
+        JComboBoxTipoJuego.setSelectedItem(juego.getTipoJuego());
         
     }
     
@@ -28,27 +28,8 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
 		jTextFieldNombre1.setText(juego.getNombre());
 		jFormattedTextFieldEdadMinima1.setText(String.valueOf(juego.getEdadMinima()));
 		jFormattedTextFieldPrecio1.setText(String.valueOf(juego.getPrecio()));
+		JComboBoxTipoJuego.setSelectedItem(juego.getTipoJuego());
 		
-		ArrayList<TipoJuegos> tipos = new ArrayList<>();
-		tipos.addAll(juego.getTipoJuego());
-        
-		JCheckBox[] jBox = new JCheckBox[]{jCheckBox18,jCheckBox19,jCheckBox20,
-	            jCheckBox21,jCheckBox22,jCheckBox23,jCheckBox24,jCheckBox25,
-	            jCheckBox26,jCheckBox27,jCheckBox28,jCheckBox29};
-		
-        for (int i = 0; i < tipos.size(); i++) {
-        	TipoJuego e = tipos.get(i).getTipo();
-        	
-        	for (int j = 0; j < jBox.length; j++) {
-        		TipoJuego m = TipoJuego.valueOf(jBox[j].getText().toString().toUpperCase());
-        		
-        		if (e == m){
-        			jBox[j].setSelected(true);
-        		}
-        		
-			}
-        	
-        }
 	}
 
 	public Juego getJuego() {
@@ -74,19 +55,8 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
     	return (Double)jFormattedTextFieldPrecio1.getValue();
     }
     
-    public ArrayList<TipoJuego> getTipoJuego(){
-    	ArrayList<TipoJuego> tipos = new ArrayList<>();
-    	JCheckBox[] jBox = new JCheckBox[]{jCheckBox18,jCheckBox19,jCheckBox20,
-	            jCheckBox21,jCheckBox22,jCheckBox23,jCheckBox24,jCheckBox25,
-	            jCheckBox26,jCheckBox27,jCheckBox28,jCheckBox29};
-        
-        for (int i = 0; i < jBox.length; i++) {
-        	if (jBox[i].isSelected()){
-        		tipos.add(TipoJuego.valueOf(jBox[i].getText().toString().toUpperCase()));
-        	}
-        }
-        
-        return tipos;
+    public TipoJuego getTipoJuego(){
+        return TipoJuego.valueOf(JComboBoxTipoJuego.getSelectedItem().toString());
         
     }
 
@@ -111,18 +81,7 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
         jLabelDescripcion1 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        jCheckBox18 = new javax.swing.JCheckBox();
-        jCheckBox19 = new javax.swing.JCheckBox();
-        jCheckBox20 = new javax.swing.JCheckBox();
-        jCheckBox21 = new javax.swing.JCheckBox();
-        jCheckBox22 = new javax.swing.JCheckBox();
-        jCheckBox23 = new javax.swing.JCheckBox();
-        jCheckBox24 = new javax.swing.JCheckBox();
-        jCheckBox25 = new javax.swing.JCheckBox();
-        jCheckBox26 = new javax.swing.JCheckBox();
-        jCheckBox27 = new javax.swing.JCheckBox();
-        jCheckBox28 = new javax.swing.JCheckBox();
-        jCheckBox29 = new javax.swing.JCheckBox();
+        JComboBoxTipoJuego = new javax.swing.JComboBox<>();
         jLabelIdArticulo1 = new javax.swing.JLabel();
         jFormattedTextFieldPrecio1 = new javax.swing.JFormattedTextField();
         jFormattedTextFieldEdadMinima1 = new javax.swing.JFormattedTextField();
@@ -245,113 +204,11 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(40, 1, 0, 1);
         add(jSeparator2, gridBagConstraints);
 
-        jCheckBox18.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox18.setText("Shooter");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        add(jCheckBox18, gridBagConstraints);
-
-        jCheckBox19.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox19.setText("Accion");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
-        add(jCheckBox19, gridBagConstraints);
-
-        jCheckBox20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox20.setText("Estrategia");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        add(jCheckBox20, gridBagConstraints);
-
-        jCheckBox21.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox21.setText("Simulacion");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
-        add(jCheckBox21, gridBagConstraints);
-
-        jCheckBox22.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox22.setText("Deportes");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        add(jCheckBox22, gridBagConstraints);
-
-        jCheckBox23.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox23.setText("Carreras");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
-        add(jCheckBox23, gridBagConstraints);
-
-        jCheckBox24.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox24.setText("Aventuras");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        add(jCheckBox24, gridBagConstraints);
-
-        jCheckBox25.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox25.setText("Rol");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
-        add(jCheckBox25, gridBagConstraints);
-
-        jCheckBox26.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox26.setText("Sandbox");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        add(jCheckBox26, gridBagConstraints);
-
-        jCheckBox27.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox27.setText("Musical");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
-        add(jCheckBox27, gridBagConstraints);
-
-        jCheckBox28.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox28.setText("Agilidad");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        add(jCheckBox28, gridBagConstraints);
-
-        jCheckBox29.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox29.setText("Educacion");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 13;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
-        add(jCheckBox29, gridBagConstraints);
+        add(JComboBoxTipoJuego, gridBagConstraints);
 
         jLabelIdArticulo1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -389,18 +246,7 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
                
     private javax.swing.JButton jButtonAgregar1;
     private javax.swing.JButton jButtonLimpiar1;
-    private javax.swing.JCheckBox jCheckBox18;
-    private javax.swing.JCheckBox jCheckBox19;
-    private javax.swing.JCheckBox jCheckBox20;
-    private javax.swing.JCheckBox jCheckBox21;
-    private javax.swing.JCheckBox jCheckBox22;
-    private javax.swing.JCheckBox jCheckBox23;
-    private javax.swing.JCheckBox jCheckBox24;
-    private javax.swing.JCheckBox jCheckBox25;
-    private javax.swing.JCheckBox jCheckBox26;
-    private javax.swing.JCheckBox jCheckBox27;
-    private javax.swing.JCheckBox jCheckBox28;
-    private javax.swing.JCheckBox jCheckBox29;
+    private javax.swing.JComboBox<TipoJuego> JComboBoxTipoJuego;
     private javax.swing.JFormattedTextField jFormattedTextFieldEdadMinima1;
     private javax.swing.JFormattedTextField jFormattedTextFieldPrecio1;
     private javax.swing.JLabel jLabelApellido1;

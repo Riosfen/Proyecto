@@ -10,7 +10,7 @@ import patronDAO.JuegoDAO;
 
 import persistencia.HibernateUtil;
 import persistencia.Juego;
-
+import persistencia.TipoJuego;
 import vista.Almacen.VistaAgregarAlmacen;
 import vista.Almacen.VistaBuscarAlmacen;
 import vista.VistaAlmacen;
@@ -30,6 +30,9 @@ public class ControladorAlmacen implements ActionListener{
         this.panelAlmacen.getBigPanel().controladorSalir(this, "atras");
         this.panelAlmacen.getBigPanel().controladorAyuda(this, "ayuda");
         this.panelAlmacen.setActivarBotones();
+        
+        panelAgregarAlmacen.setControlador(new ControladorAniadirAlmacen(panelAgregarAlmacen));
+        panelBuscarAlmacen.setControlador(new ControladorBuscarAlmacen(panelBuscarAlmacen, panelAlmacen));
         HibernateUtil.buildSessionFactory();
     }
 
@@ -45,19 +48,18 @@ public class ControladorAlmacen implements ActionListener{
                 break;
                 
             case "ventana_agregar":
-                panelAgregarAlmacen.setControlador(new ControladorAniadirAlmacen(panelAgregarAlmacen));
                 panelAlmacen.setPanelDerecho(panelAgregarAlmacen);
                 panelAlmacen.getBotonAgregar().setEnabled(false);
                 panelAlmacen.getBotonBuscar().setEnabled(true);
+                
                 break;
                 
             case "ventana_buscar":
-                panelBuscarAlmacen.setControlador(new ControladorBuscarAlmacen(panelBuscarAlmacen, panelAlmacen));
                 panelAlmacen.setPanelDerecho(panelBuscarAlmacen);
                 panelBuscarAlmacen.cargarFiltro(obtenerColumnas());
                 
-                String[] columnas = new String[]{"Nombre", "Edad mínima", "Precio"};
-                @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class};
+                String[] columnas = new String[]{"Nombre", "Edad mínima", "Precio", "Tipo juego"};
+                @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, TipoJuego.class};
                 
                 panelBuscarAlmacen.cargarTabla(obtenerListaJuegos(),columnas, types);
                 panelAlmacen.getBotonAgregar().setEnabled(true);
@@ -71,13 +73,13 @@ public class ControladorAlmacen implements ActionListener{
 		Object[][] datos;
 		try {
 			List<Juego> juegos = new JuegoDAO().obtenerTodo();
-			datos = new Object[juegos.size()][3];
+			datos = new Object[juegos.size()][4];
 			
 			for (int i = 0; i < juegos.size(); i++){
 				datos[i][0] = juegos.get(i).getNombre();
 				datos[i][1] = juegos.get(i).getEdadMinima();
 				datos[i][2] = juegos.get(i).getPrecio();
-				//datos[i][3] = juegos.get(i).getTipoJuego();
+				datos[i][3] = juegos.get(i).getTipoJuego();
 			}
 			
 		} finally {

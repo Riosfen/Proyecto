@@ -79,7 +79,7 @@ public class ControladorVenta implements ActionListener{
             	
                 break;
             case "limpiar":
-            	int resul = JOptionPane.showConfirmDialog(null, "ï¿½Seguro que desea borrar toda la compra?", "AVISO!!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            	int resul = JOptionPane.showConfirmDialog(null, "¿Seguro que desea borrar toda la compra?", "AVISO!!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             	if (resul == 0){
             		panelVentanaPrincipal.limpiarTablaCompra();
             	}
@@ -285,9 +285,9 @@ public class ControladorVenta implements ActionListener{
 			case "NOMBRE":
 				return obtenerListaJuego(juegoDao.buscarJuegoPorNombre(texto));
 			case "EDAD":
-				return obtenerListaJuego(juegoDao.buscarJuegoPorEdad(texto));
+				return obtenerListaJuego(juegoDao.buscarJuegoPorEdadMayor(Integer.parseInt(texto)));
 			case "PRECIO":
-				return obtenerListaJuego(juegoDao.buscarJuegoPorPrecio(texto));
+				return obtenerListaJuego(juegoDao.buscarJuegoPorPrecioMayor(Double.parseDouble(texto)));
 			case "TODO":
 				return obtenerListaJuego(juegoDao.obtenerTodo());
 			}

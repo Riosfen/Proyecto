@@ -1,7 +1,8 @@
 package persistencia;
 
 public enum TipoJuego {
-
+	
+	NO_DEFINIDO,
 	SHOOTER,
 	ACCION,
 	ESTRATEGIA,

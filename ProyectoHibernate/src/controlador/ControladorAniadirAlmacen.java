@@ -2,10 +2,10 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashSet;
 
 import javax.swing.JOptionPane;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.hibernate.HibernateException;
 
@@ -13,7 +13,6 @@ import patronDAO.JuegoDAO;
 import persistencia.HibernateUtil;
 import persistencia.Juego;
 import persistencia.TipoJuego;
-import persistencia.TipoJuegos;
 import vista.Almacen.VistaAgregarAlmacen;
 
 public class ControladorAniadirAlmacen implements ActionListener {
@@ -32,17 +31,16 @@ public class ControladorAniadirAlmacen implements ActionListener {
         case "agregar":
         	try {
                 agregarAlmacen();
+                panelAgregarAlmacen.limpiarDatos();
 				
-			} catch (HibernateException e2) {
-				JOptionPane.showMessageDialog(null, e2.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-			} catch (ClassCastException e2){
-				JOptionPane.showMessageDialog(null, "Formato no aceptado, inserta un valor correcto. Ej: 12,99", "ERROR", JOptionPane.ERROR_MESSAGE);
-			}catch (NumberFormatException e2){
-				JOptionPane.showMessageDialog(null, "Formato no aceptado, inserta un valor correcto. Ej: 14", "ERROR", JOptionPane.ERROR_MESSAGE);
-			}catch (NullPointerException e2){
-				JOptionPane.showMessageDialog(null, "Formato no aceptado, inserta un valor correcto. Ej: 12,99", "ERROR", JOptionPane.ERROR_MESSAGE);
+        	} catch (ConstraintViolationException e2) {
+				StringBuilder cadena = new StringBuilder("No se ha podido insertar el artículo debido a los siguientes errores:\n\n");
+				for (@SuppressWarnings("rawtypes") ConstraintViolation constraintViolation : e2.getConstraintViolations()) {
+					cadena.append("En el campo '" + constraintViolation.getPropertyPath() + "':" + constraintViolation.getMessage() + "\n");
+			    }
+				JOptionPane.showMessageDialog(null, cadena, "ERROR!!", JOptionPane.ERROR_MESSAGE);
 			}
-            panelAgregarAlmacen.limpiarDatos();
+        	
             break;
         
         case "limpiar":
@@ -53,22 +51,13 @@ public class ControladorAniadirAlmacen implements ActionListener {
 	}
 
 	private void agregarAlmacen() throws HibernateException {
-		TipoJuegos tipo;
-		HashSet<TipoJuegos> tipos = new HashSet<>();
-
+		
 		String nombre = panelAgregarAlmacen.getNombre();
 		int edadMin = panelAgregarAlmacen.getEdadMinima();
 		double precio = panelAgregarAlmacen.getPrecio();
-		ArrayList<TipoJuego> tipoJuego = panelAgregarAlmacen.getTipoJuego();
-		
-		Juego nuevoJuego = new Juego(nombre, edadMin, precio, tipos);
-		
-		for (int i = 0; i < tipoJuego.size(); i++) {
-			tipo = new TipoJuegos(tipoJuego.get(i), nuevoJuego);
-			tipos.add(tipo);
-		}
-		
-		nuevoJuego.setTipoJuego(tipos);
+		TipoJuego tipo = panelAgregarAlmacen.getTipoJuego();
+
+		Juego nuevoJuego = new Juego(nombre,edadMin,precio,tipo);
 		
 		try {
 			HibernateUtil.openSessionAndBindToThread();
@@ -90,7 +79,7 @@ public class ControladorAniadirAlmacen implements ActionListener {
 		
 		if(juego != null){
 			encontrado = true;
-			throw new HibernateException("El juego "+ nombre +" ya se encuentra en la base de datos");
+			throw new HibernateException("El artículo "+ nombre +" ya se encuentra en la base de datos");
 		}
 		
 		return encontrado;

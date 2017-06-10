@@ -1,17 +1,14 @@
 package persistencia;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
@@ -38,7 +35,6 @@ public class Juego implements Serializable {
 	@NotNull
 	@Max(99)
 	@Min(0)
-	@Digits(integer=2, fraction = 0)
 	@Column(name = "EDAD_MINIMA")
 	private int edadMinima;
 
@@ -48,14 +44,14 @@ public class Juego implements Serializable {
 	@Column(name = "PRECIO")
 	private double precio;
 	
-	@OneToMany(cascade= CascadeType.ALL)
-    @JoinColumn(name="ID_JUEGO")
-	private Set<TipoJuegos> tipoJuego;
+	@NotNull
+	@Enumerated(EnumType.ORDINAL)
+	private TipoJuego tipoJuego;
 	
 	
 	public Juego(){}
 	
-	public Juego(String nombre, int edadMinima, double precio, HashSet<TipoJuegos> tipoJuego){
+	public Juego(String nombre, int edadMinima, double precio, TipoJuego tipoJuego){
 		
 		this.nombre = nombre;
 		this.edadMinima = edadMinima;
@@ -77,11 +73,11 @@ public class Juego implements Serializable {
 	public double getPrecio() {
 		return precio;
 	}
-	public Set<TipoJuegos> getTipoJuego() {
+	public TipoJuego getTipoJuego() {
 		return tipoJuego;
 	}
 	
-	public void setTipoJuego(Set<TipoJuegos> tipoJuego) {
+	public void setTipoJuego(TipoJuego tipoJuego) {
 		this.tipoJuego = tipoJuego;
 	}
 	public void setId(int id) {

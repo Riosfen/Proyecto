@@ -16,7 +16,8 @@ public class JuegoDAO extends GenericDAO<Juego> {
 
 	public Juego getJuegoPorNombre(String nombre){
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Juego juego = (Juego) session.createQuery("SELECT j FROM Juego j LEFT JOIN FETCH j.tipoJuego WHERE j.nombre = '"+nombre+"'").uniqueResult();
+		//Juego juego = (Juego) session.createQuery("SELECT j FROM Juego j LEFT JOIN FETCH j.tipoJuego WHERE j.nombre = '"+nombre+"'").uniqueResult();
+		Juego juego = (Juego) session.createQuery("SELECT j FROM Juego j WHERE j.nombre = '"+nombre+"'").uniqueResult();
 		
 		return juego;
 	}
@@ -24,7 +25,7 @@ public class JuegoDAO extends GenericDAO<Juego> {
 	@SuppressWarnings("unchecked")
 	public List<Juego> buscarJuegoPorNombre(String nombre){
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Query query = session.createQuery("SELECT j FROM Juego j LEFT JOIN FETCH j.tipoJuego WHERE j.nombre LIKE '%"+nombre+"%'");
+		Query query = session.createQuery("SELECT j FROM Juego j WHERE j.nombre LIKE '%"+nombre+"%'");
 		List<Juego> juegos = query.list();
 		
 		Set<Juego> juegoDuplicados = new LinkedHashSet<Juego>(juegos);
@@ -35,9 +36,9 @@ public class JuegoDAO extends GenericDAO<Juego> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Juego> buscarJuegoPorEdad(String edad){
+	public List<Juego> buscarJuegoPorEdadMayor(int edad){
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Query query = session.createQuery("SELECT j FROM Juego j LEFT JOIN FETCH j.tipoJuego WHERE j.edadMinima LIKE '%"+edad+"%'");
+		Query query = session.createQuery("SELECT j FROM Juego j WHERE j.edadMinima >= "+edad);
 		List<Juego> juegos = query.list();
 		
 		Set<Juego> juegoDuplicados = new LinkedHashSet<Juego>(juegos);
@@ -48,9 +49,9 @@ public class JuegoDAO extends GenericDAO<Juego> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Juego> buscarJuegoPorPrecio(String precio){
+	public List<Juego> buscarJuegoPorPrecioMayor(double precio){
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Query query = session.createQuery("SELECT j FROM Juego j LEFT JOIN FETCH j.tipoJuego WHERE j.precio LIKE '%"+precio+"%'");
+		Query query = session.createQuery("SELECT j FROM Juego j WHERE j.precio >= "+precio);
 		List<Juego> juegos = query.list();
 		
 		Set<Juego> juegoDuplicados = new LinkedHashSet<Juego>(juegos);

@@ -72,6 +72,8 @@ public class ControladorBuscarUsuario implements ActionListener {
 	}
 
 	private void editarCliente() {
+
+		
 		try {
 			Cliente cliente = obtenerClienteTabla();
 			this.panelModificarUsuario = new VistaModificarUsuario(cliente);
@@ -79,6 +81,8 @@ public class ControladorBuscarUsuario implements ActionListener {
 		    panelUsuario.setPanelDerecho(panelModificarUsuario);
 
 			actualizarTabla();
+			panelUsuario.getBotonAgregar().setEnabled(true);
+			panelUsuario.getBotonBuscar().setEnabled(true);
 			
 		} catch (Exception e2) {
 			JOptionPane.showMessageDialog(null, "No se ha encontrado al cliente seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);

@@ -13,7 +13,6 @@
      <mapping class="persistencia.Venta"/>
      <mapping class="persistencia.Cliente"/>
      <mapping class="persistencia.LineaVenta"/>
-     <mapping class="persistencia.TipoJuegos"/>
 
    </session-factory>
  </hibernate-configuration>

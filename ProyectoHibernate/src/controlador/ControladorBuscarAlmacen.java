@@ -11,7 +11,7 @@ import patronDAO.JuegoDAO;
 
 import persistencia.HibernateUtil;
 import persistencia.Juego;
-
+import persistencia.TipoJuego;
 import vista.VistaAlmacen;
 import vista.Almacen.VistaBuscarAlmacen;
 import vista.Almacen.VistaModificarAlmacen;
@@ -34,12 +34,15 @@ public class ControladorBuscarAlmacen implements ActionListener {
 		switch(e.getActionCommand()){
 		case "editar":
 			try {
+				
 				Juego juego = obtenerJuegoTabla();
 				this.panelModificarAlmacen = new VistaModificarAlmacen(juego);
 	            panelModificarAlmacen.setControlador(new ControladorModificarAlmacen(panelModificarAlmacen));
 	            panelAlmacen.setPanelDerecho(panelModificarAlmacen);
 	            
 				actualizarTabla();
+                panelAlmacen.getBotonAgregar().setEnabled(true);
+                panelAlmacen.getBotonBuscar().setEnabled(true);
 	            
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(null, "No se ha encontrado el artículo seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
@@ -59,9 +62,19 @@ public class ControladorBuscarAlmacen implements ActionListener {
 			
 			break;
 		case "buscar":
-			Object[][] datos = buscarJuego(panelBuscarAlmacen.getFiltro());
-			String[] cabecera = new String[]{"Nombre", "Edad mínima", "Precio"};
-			@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class};
+			
+			Object[][] datos = null;
+			String[] cabecera = new String[]{"Nombre", "Edad mínima", "Precio", "Tipo juego"};
+			@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, TipoJuego.class};
+			
+			try {
+				datos = buscarJuego(panelBuscarAlmacen.getFiltro());
+				
+			} catch (NullPointerException e2) {
+				JOptionPane.showMessageDialog(null, "Base de datos vacía, considere introducir datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+			} catch (NumberFormatException e2){
+				JOptionPane.showMessageDialog(null, "Asegurese de escribir un número mayor a 0.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+			}
 			
 			if (datos == null){
 				JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelBuscarAlmacen.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
@@ -75,8 +88,8 @@ public class ControladorBuscarAlmacen implements ActionListener {
 	
 	private void actualizarTabla() {
 		Object[][] datos2 = buscarJuego("TODO");
-		String[] cabecera2 = new String[]{"Nombre", "Edad mínima", "Precio"};
-		@SuppressWarnings("rawtypes") Class[] types2 = new Class[] {String.class, String.class, String.class};
+		String[] cabecera2 = new String[]{"Nombre", "Edad mínima", "Precio", "Tipo juego"};
+		@SuppressWarnings("rawtypes") Class[] types2 = new Class[] {String.class, String.class, String.class, TipoJuego.class};
 		panelBuscarAlmacen.cargarTabla(datos2, cabecera2, types2);
 		
 	}
@@ -91,9 +104,9 @@ public class ControladorBuscarAlmacen implements ActionListener {
 			case "NOMBRE":
 				return obtenerListaJuego(juegoDao.buscarJuegoPorNombre(texto));
 			case "EDAD":
-				return obtenerListaJuego(juegoDao.buscarJuegoPorEdad(texto));
+				return obtenerListaJuego(juegoDao.buscarJuegoPorEdadMayor(Integer.parseInt(texto)));
 			case "PRECIO":
-				return obtenerListaJuego(juegoDao.buscarJuegoPorPrecio(texto));
+				return obtenerListaJuego(juegoDao.buscarJuegoPorPrecioMayor(Double.parseDouble(texto)));
 			case "TODO":
 				return obtenerListaJuego(juegoDao.obtenerTodo());
 			}
@@ -110,13 +123,13 @@ public class ControladorBuscarAlmacen implements ActionListener {
 		Object[][] datos = null;
 		
 		if (juegos.size() != 0){
-			datos = new Object[juegos.size()][3];
+			datos = new Object[juegos.size()][4];
 			
 			for (int i = 0; i < juegos.size(); i++){
 				datos[i][0] = juegos.get(i).getNombre();
 				datos[i][1] = juegos.get(i).getEdadMinima();
 				datos[i][2] = juegos.get(i).getPrecio();
-				//datos[i][3] = juegos.get(i).getTipoJuego();
+				datos[i][3] = juegos.get(i).getTipoJuego();
 			}
 		}
 		

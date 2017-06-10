@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.hibernate.HibernateException;
 
@@ -30,12 +32,15 @@ public class ControladorAniadirUsuario implements ActionListener{
         case "agregar":
         	try {
                 agregarUsuario();
+                panelAgregarUsuario.limpiarDatos();
 				
-			} catch (Exception e2) {
-				JOptionPane.showMessageDialog(null, e2.getMessage(), "ERROR!!", JOptionPane.ERROR_MESSAGE);
-				//TODO Ivan me va a decir como hacer pa que no me salgan cosas raras
+			} catch (ConstraintViolationException e2) {
+				StringBuilder cadena = new StringBuilder("No se ha podido insertar el cliente debido a los siguientes errores:\n\n");
+				for (@SuppressWarnings("rawtypes") ConstraintViolation constraintViolation : e2.getConstraintViolations()) {
+					cadena.append("En el campo '" + constraintViolation.getPropertyPath() + "':" + constraintViolation.getMessage() + "\n");
+			    }
+				JOptionPane.showMessageDialog(null, cadena, "ERROR!!", JOptionPane.ERROR_MESSAGE);
 			}
-            panelAgregarUsuario.limpiarDatos();
             break;
         
         case "limpiar":
@@ -81,7 +86,7 @@ public class ControladorAniadirUsuario implements ActionListener{
 			
 			if(cliente != null){
 				encontrado = true;
-				throw new HibernateException("Ese Cliente ya se encuentra en la base de datos.");
+				throw new HibernateException(cliente.getNombre() + " con DNI: " + cliente.getDni() + ", ya se encuentra en la base de datos.");
 			}
 		
 		return encontrado;
