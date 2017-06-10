@@ -48,19 +48,26 @@ public class Juego implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private TipoJuego tipoJuego;
 	
+	@NotNull
+	@Min(0)
+	@Column(name = "STOCK")
+	private int stock;
 	
 	public Juego(){}
 	
-	public Juego(String nombre, int edadMinima, double precio, TipoJuego tipoJuego){
+	public Juego(String nombre, int edadMinima, double precio, TipoJuego tipoJuego, int stock){
 		
 		this.nombre = nombre;
 		this.edadMinima = edadMinima;
 		this.precio = precio;
 		this.tipoJuego = tipoJuego;
+		this.stock = stock;
 		
 	}
 	
-	
+	public int getStock() {
+		return stock;
+	}
 	public int getEdadMinima() {
 		return edadMinima;
 	}
@@ -77,6 +84,9 @@ public class Juego implements Serializable {
 		return tipoJuego;
 	}
 	
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
 	public void setTipoJuego(TipoJuego tipoJuego) {
 		this.tipoJuego = tipoJuego;
 	}
