@@ -1,6 +1,9 @@
 Para realizar este proyecto se ha utilizado una Base de Datos que puedes encontrar
 en la carpeta: "BD" (u329292900_proye.sql) importalo en tu propio servidor.
 
+He rellenado la DB con un generador que se puede encontrar en esta dirección: 
+	-> http://www.generatedata.com/?lang=es#t1
+
 Tambien se ha utilizado el JRE JavaSE-1.8.
 
 Se han utilizado 17 .jar:
