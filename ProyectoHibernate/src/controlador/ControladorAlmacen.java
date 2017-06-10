@@ -10,7 +10,6 @@ import patronDAO.JuegoDAO;
 
 import persistencia.HibernateUtil;
 import persistencia.Juego;
-import persistencia.TipoJuego;
 import vista.Almacen.VistaAgregarAlmacen;
 import vista.Almacen.VistaBuscarAlmacen;
 import vista.VistaAlmacen;
@@ -59,9 +58,8 @@ public class ControladorAlmacen implements ActionListener{
                 panelBuscarAlmacen.cargarFiltro(obtenerColumnas());
                 
                 String[] columnas = new String[]{"Nombre", "Edad mínima", "Precio", "Tipo juego"};
-                @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, TipoJuego.class};
                 
-                panelBuscarAlmacen.cargarTabla(obtenerListaJuegos(),columnas, types);
+                panelBuscarAlmacen.cargarTabla(obtenerListaJuegos(),columnas);
                 panelAlmacen.getBotonAgregar().setEnabled(true);
                 panelAlmacen.getBotonBuscar().setEnabled(false);
                 break;

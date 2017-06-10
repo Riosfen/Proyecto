@@ -60,7 +60,7 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
     }
     
     public int getCantidad(){
-    	return Integer.valueOf(jSpinField1.getToolTipText().toString());
+    	return jSpinField1.getValue();
     }
     
     public String getFiltro(){
@@ -84,13 +84,18 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
     	jComboBox1.setModel(new DefaultComboBoxModel<String>(filtro));
     }
     public void cargarTabla1(Object[][] Juegos, String[] cabecera, @SuppressWarnings("rawtypes") Class[] types){ 
-    	ModeloTablaPersonal myModeloTabla = new ModeloTablaPersonal(cabecera, Juegos, types);
-        jTable3.setModel(myModeloTabla);
+    	modeloTablaCola = new ModeloTablaPersonal(cabecera, Juegos);
+        jTable3.setModel(modeloTablaCola);
     }
 
-    public void cargarTabla2(Object[][] Juegos, @SuppressWarnings("rawtypes") Class[] types){ 
-    	modeloTablaCola = new ModeloTablaPersonal(null, Juegos, types);
+    public void cargarTabla2(Object[][] Juegos, String[] cabecera, @SuppressWarnings("rawtypes") Class[] types){ 
+    	modeloTablaCola = new ModeloTablaPersonal(cabecera, Juegos);
         jTable4.setModel(modeloTablaCola);
+    }
+    
+    public void tablaCompraAnniadirCompra(Object[] fila){
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+    	modelo.addRow(fila);
     }
     
 	public void limpiarTablaCompra() {
@@ -98,10 +103,6 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
 		while (modelo.getRowCount()>0) modelo.removeRow(0);
 		
 	}
-    
-    public ModeloTablaPersonal getModeloTabla(){
-    	return modeloTablaCola;
-    }
 
 	public int getSizeRowTablaCompra() {
 		return jTable4.getRowCount();
@@ -125,9 +126,23 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
 		jTable4.setValueAt(valor, fila, 1);
 	}
 	
-	public void eliminarFilaTablaCompra(int fila) {
+	public void eliminarFilaTablaCompra() {
 		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
-		modelo.removeRow(fila);
+		modelo.removeRow(getselectedRowTablaCompra());
+	}           
+
+	public int getFilaSelecStock() {
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+		int fila = jTable4.getSelectedRow();
+		
+		return Integer.valueOf(modelo.getValueAt(fila, 1).toString());
+	}
+	
+	public String getFilaSelecNombre() {
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+		int fila = jTable4.getSelectedRow();
+		
+		return modelo.getValueAt(fila, 0).toString();
 	}
 
     private void initComponents() {
@@ -233,6 +248,7 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
         add(jLabelSeleccionarUsuario, gridBagConstraints);
 
         jTextFieldFiltroNombre.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jTextFieldFiltroNombre.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -367,6 +383,6 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
     private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextFieldFiltro;
     private javax.swing.JTextField jTextFieldFiltroNombre;
-    // End of variables declaration                   
+    // End of variables declaration        
 
 }

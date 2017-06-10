@@ -3,7 +3,6 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.swing.JDialog;
 
@@ -58,9 +57,8 @@ public class ControladorUsuario implements ActionListener {
                 panelBuscarUsuario.cargarFiltro(obtenerColumnas());
                 
                 String[] columnas = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
-                @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
                 
-                panelBuscarUsuario.cargarTabla(obtenerListaClientes(),columnas, types);
+                panelBuscarUsuario.cargarTabla(obtenerListaClientes(),columnas);
                 panelUsuario.getBotonAgregar().setEnabled(true);
                 panelUsuario.getBotonBuscar().setEnabled(false);
                 break;

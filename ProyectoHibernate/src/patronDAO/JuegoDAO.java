@@ -68,5 +68,18 @@ public class JuegoDAO extends GenericDAO<Juego> {
 		
 		return query.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Juego> buscarJuegoPorStockMayor(int stock) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Query query = session.createQuery("SELECT j FROM Juego j WHERE j.stock >= "+stock);
+		List<Juego> juegos = query.list();
+		
+		Set<Juego> juegoDuplicados = new LinkedHashSet<Juego>(juegos);
+		juegos.clear();
+		juegos.addAll(juegoDuplicados);
+		
+		return juegos;
+	}
 	
 }

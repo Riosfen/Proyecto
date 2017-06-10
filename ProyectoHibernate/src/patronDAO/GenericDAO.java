@@ -1,6 +1,7 @@
 package patronDAO;
 
 import java.util.List;
+
 import persistencia.HibernateUtil;
 
 public class GenericDAO<T> {
@@ -19,6 +20,7 @@ public class GenericDAO<T> {
 		HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
 		HibernateUtil.getSessionFactory().getCurrentSession().update(entidad);
 		HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
+		HibernateUtil.getSessionFactory().getCurrentSession().flush();
 		HibernateUtil.getSessionFactory().getCurrentSession().refresh(entidad);
 	}
 	
@@ -38,5 +40,11 @@ public class GenericDAO<T> {
 		HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
 		return entities;
 	}
+	
+	public void rollback (){
+
+		HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
+        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().rollback();
+    }
 	
 }

@@ -47,8 +47,8 @@ public class VistaBuscarAlmacen extends javax.swing.JPanel {
     public void cargarFiltro(String[] filtro){
     	jComboBoxFiltro.setModel(new DefaultComboBoxModel<String>(filtro));
     }
-    public void cargarTabla(Object[][] Juegos, String[] cabecera, @SuppressWarnings("rawtypes") Class[] types){ 
-    	ModeloTablaPersonal myModeloTabla = new ModeloTablaPersonal(cabecera, Juegos, types);
+    public void cargarTabla(Object[][] Juegos, String[] cabecera){ 
+    	ModeloTablaPersonal myModeloTabla = new ModeloTablaPersonal(cabecera, Juegos);
         jTableUsuario.setModel(myModeloTabla);
     }
               

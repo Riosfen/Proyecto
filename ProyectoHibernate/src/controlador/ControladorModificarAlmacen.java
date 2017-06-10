@@ -3,6 +3,10 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import patronDAO.JuegoDAO;
 
 import persistencia.HibernateUtil;
@@ -24,7 +28,16 @@ public class ControladorModificarAlmacen implements ActionListener {
 
 		switch(e.getActionCommand()){
 			case "modificar":
-				actualizarAlmacen(panelModificarAlmacen.getJuego());
+				try{
+					actualizarAlmacen(panelModificarAlmacen.getJuego());
+					
+				} catch (ConstraintViolationException e2) {
+					StringBuilder cadena = new StringBuilder("No se ha podido insertar el artículo debido a los siguientes errores:\n\n");
+					for (@SuppressWarnings("rawtypes") ConstraintViolation constraintViolation : e2.getConstraintViolations()) {
+						cadena.append("En el campo '" + constraintViolation.getPropertyPath() + "':" + constraintViolation.getMessage() + "\n");
+				    }
+					JOptionPane.showMessageDialog(null, cadena, "ERROR!!", JOptionPane.ERROR_MESSAGE);
+				}
 				break;
 			case "limpiar":
 				panelModificarAlmacen.limpiarDatos();

@@ -41,7 +41,7 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
         jButtonAgregar1.addActionListener(e);
         jButtonLimpiar1.addActionListener(e);
         
-        jButtonAgregar1.setActionCommand("agregar");
+        jButtonAgregar1.setActionCommand("modificar");
         jButtonLimpiar1.setActionCommand("limpiar");
 		
 	}
@@ -49,15 +49,34 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
 	public String getNombre(){
     	return jTextFieldNombre1.getText().toString();
     }
-    public int getEdadMinima(){
-    	return Integer.valueOf(jFormattedTextFieldEdadMinima1.getText().toString());
+	public int getEdadMinima(){
+    	int resul = -1;
+    	
+		try {
+			resul = Integer.valueOf(jFormattedTextFieldEdadMinima1.getText().toString());
+		} catch (NumberFormatException e) {}
+		
+    	return resul;
     }
+    
     public double getPrecio(){
-    	return (Double)jFormattedTextFieldPrecio1.getValue();
+    	double resul = -1;
+    	
+		try {
+			resul = Double.valueOf(jFormattedTextFieldPrecio1.getValue().toString());
+		} catch (NullPointerException e) {}
+		
+    	return resul;
     }
     
     public TipoJuego getTipoJuego(){
-        return TipoJuego.valueOf(JComboBoxTipoJuego.getSelectedItem().toString());
+    	TipoJuego tipo = TipoJuego.NO_DEFINIDO;
+    	
+    	try {
+			tipo = TipoJuego.valueOf(JComboBoxTipoJuego.getSelectedItem().toString());
+		} catch (NullPointerException e) {}
+    	
+        return tipo;
         
     }
 

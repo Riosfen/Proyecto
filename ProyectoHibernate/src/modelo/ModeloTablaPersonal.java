@@ -1,51 +1,18 @@
 package modelo;
 
-import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
-public class ModeloTablaPersonal extends AbstractTableModel {
-
-	private String[] nombreColumnas;
-	private Object[][] datos;
-	@SuppressWarnings("rawtypes")
-	private Class[] types;
+public class ModeloTablaPersonal extends DefaultTableModel {
 	
-	public ModeloTablaPersonal(String[] nombreColumnas, Object[][] datos, @SuppressWarnings("rawtypes") Class[] types) {
-		this.nombreColumnas = nombreColumnas;
-		this.datos = datos;
-		this.types = types;
+	public ModeloTablaPersonal(String[] nombreColumnas, Object[][] datos) {
+		super(datos, nombreColumnas);
 		
 	}
      
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-    public Class getColumnClass(int columnIndex) {
-        return types [columnIndex];
+    @Override
+    public boolean isCellEditable(int row, int column) {
+    	return false;
     }
-	
-	@Override
-	public int getColumnCount() {
-		return nombreColumnas.length;
-	}
-
-	@Override
-	public int getRowCount() {
-		return datos.length;
-	}
-	
-	@Override
-	public String getColumnName(int column) {
-		return nombreColumnas[column];
-	}
-
-	@Override
-	public Object getValueAt(int arg0, int arg1) {
-		return datos[arg0][arg1];
-	}
-
-	@Override
-	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return false;
-	}
 	
 }

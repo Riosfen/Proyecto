@@ -3,7 +3,6 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -51,12 +50,11 @@ public class ControladorBuscarUsuario implements ActionListener {
 	private void buscarCliente() {
 		Object[][] datos = buscarCliente(panelBuscarUsuario.getFiltro());
 		String[] cabecera = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
-		@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
 		
 		if (datos == null){
 			JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelBuscarUsuario.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
 		}else{
-			panelBuscarUsuario.cargarTabla(datos, cabecera, types);
+			panelBuscarUsuario.cargarTabla(datos, cabecera);
 		}
 	}
 
@@ -94,8 +92,7 @@ public class ControladorBuscarUsuario implements ActionListener {
 	private void actualizarTabla() {
 		Object[][] datos2 = buscarCliente("TODO");
 		String[] cabecera2 = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
-		@SuppressWarnings("rawtypes") Class[] types2 = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
-		panelBuscarUsuario.cargarTabla(datos2, cabecera2, types2);
+		panelBuscarUsuario.cargarTabla(datos2, cabecera2);
 		
 	}
 

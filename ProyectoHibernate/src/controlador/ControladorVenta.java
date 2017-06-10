@@ -3,7 +3,6 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -15,7 +14,7 @@ import patronDAO.JuegoDAO;
 import persistencia.Cliente;
 import persistencia.HibernateUtil;
 import persistencia.Juego;
-
+import persistencia.TipoJuego;
 import vista.VistaVenta;
 import vista.Ventana.VistaBuscarUsuarioEspecifico;
 import vista.Ventana.VistaVentaPrincipal;
@@ -48,13 +47,39 @@ public class ControladorVenta implements ActionListener{
         
     }
 
+    /*
+     * Carga la tabla con todos los articulos
+     */
 	private void cargarFiltroJuego() {
-		panelVentanaPrincipal.cargarFiltro(obtenerColumnasJuego());
+		panelVentanaPrincipal.cargarFiltro(new String[]{"NOMBRE","EDAD","PRECIO", "STOCK"});
         
-        String[] columnas = new String[]{"Nombre", "Edad mï¿½nima", "Precio"};
-        @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class};
-        
+        String[] columnas = new String[]{"Nombre", "Edad mínima", "Precio", "Tipo", "Stock"};
+        @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, TipoJuego.class, String.class};
+
         panelVentanaPrincipal.cargarTabla1(obtenerListaJuegos(),columnas, types);
+        panelVentanaPrincipal.cargarTabla2(new Object[][]{{"","",""}}, new String[]{"Nombre artículo", "Stock", "Precio"}, new Class[]{String.class, String.class, String.class});
+	}
+    
+    private Object[][] obtenerListaJuegos() {
+		HibernateUtil.openSessionAndBindToThread();
+		Object[][] datos;
+		try {
+			List<Juego> juegos = new JuegoDAO().obtenerTodo();
+			datos = new Object[juegos.size()][5];
+			
+			for (int i = 0; i < juegos.size(); i++){
+				datos[i][0] = juegos.get(i).getNombre();
+				datos[i][1] = juegos.get(i).getEdadMinima();
+				datos[i][2] = juegos.get(i).getPrecio();
+				datos[i][3] = juegos.get(i).getTipoJuego();
+				datos[i][4] = juegos.get(i).getStock();
+			}
+			
+		} finally {
+			HibernateUtil.closeSessionAndUnbindFromThread();
+		}
+		
+		return datos;
 	}
 
     @Override
@@ -86,7 +111,35 @@ public class ControladorVenta implements ActionListener{
             	
                 break;
             case "aniadirArticulo":
-            	//TODO aï¿½adir articulo, se obtiene el nombre del producto que es unico y el precio, se le introduce la cantidad que se obtiene del jspiner y se inserta
+                HibernateUtil.openSessionAndBindToThread();
+                Juego j = null;
+				JuegoDAO juegoDao = new JuegoDAO();
+				int stock = panelVentanaPrincipal.getCantidad();
+				
+            	try{
+            		try {
+            			
+                    	j = juegoDao.getJuegoPorNombre(panelVentanaPrincipal.getJuegoNombre());
+                    	System.out.println(panelVentanaPrincipal.getJuegoNombre());
+                    	
+                    	if (j.getStock()-stock < 0){
+        					JOptionPane.showMessageDialog(null, "Se ha superado el limite de stock del artículo "+ j.getNombre() + ".\nEl maximo que se puede comprar es de "+ j.getStock(), "ERROR!", JOptionPane.ERROR_MESSAGE);
+                    	}else{
+                        	j.setStock(j.getStock()-stock);
+                        	juegoDao.actualizar(j);
+                    		
+                        	Object[] fila = new Object[]{j.getNombre(), stock, j.getPrecio()*stock};
+                        	panelVentanaPrincipal.tablaCompraAnniadirCompra(fila);
+                        	
+                    	}
+    					
+    				} catch (NullPointerException e2) {
+    					JOptionPane.showMessageDialog(null, "No se ha encontrado el artículo seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+    				}
+            		
+		        } finally {
+					HibernateUtil.closeSessionAndUnbindFromThread();
+				}
             	
                 break;
             case "aumentarCantidad":
@@ -104,7 +157,23 @@ public class ControladorVenta implements ActionListener{
             	
                 break;
             case "eliminar":
-            	panelVentanaPrincipal.eliminarFilaTablaCompra(panelVentanaPrincipal.getselectedRowTablaCompra());
+            	HibernateUtil.openSessionAndBindToThread();
+            	JuegoDAO juegoDa = new JuegoDAO();
+            	
+            	try{
+	            	int stoc = panelVentanaPrincipal.getFilaSelecStock();
+	            	String nombre = panelVentanaPrincipal.getFilaSelecNombre();
+	            	
+	            	Juego juego = juegoDa.getJuegoPorNombre(nombre);
+	            	juego.setStock(juego.getStock()+stoc);
+	            	
+	            	juegoDa.actualizar(juego);
+	            	
+	            	panelVentanaPrincipal.eliminarFilaTablaCompra();
+            	
+            	} finally {
+					HibernateUtil.closeSessionAndUnbindFromThread();
+				}
             	
                 break;
                 //
@@ -112,6 +181,7 @@ public class ControladorVenta implements ActionListener{
                 //
             case "buscar":
             	buscarCliente();
+            	
             	break;
             case "cancelar":
             	panelVenta.setPanelDerecho(panelVentanaPrincipal);
@@ -129,29 +199,97 @@ public class ControladorVenta implements ActionListener{
             	break;
         }
     }
-
-	private void buscarUsuario() {
-		panelVenta.setPanelDerecho(panelBuscarUsuario);
-		panelBuscarUsuario.cargarFiltro(obtenerColumnas());
+    
+    /*
+     * Todo los metodos de buscar articulo
+     */
+	private void buscarArticulo() {
+		Object[][] datos = buscarJuego(panelVentanaPrincipal.getFiltro());
+		String[] cabecera = new String[]{"Nombre", "Edad mínima", "Precio", "Tipo", "Stock"};
+		@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, TipoJuego.class, String.class};
 		
-		String[] columnas = new String[]{"DNI", "Apellidos", "Nombre", "Telï¿½fono", "Direcciï¿½n", "Fecha de Nacimiento"};
-		@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
+		if (datos == null){
+			JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelVentanaPrincipal.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		}else{
+			panelVentanaPrincipal.cargarTabla1(datos, cabecera, types);
+		}
 		
-		panelBuscarUsuario.cargarTabla(obtenerListaClientes(),columnas, types);
 	}
     
-    private Object[][] obtenerListaJuegos() {
-		HibernateUtil.openSessionAndBindToThread();
-		Object[][] datos;
-		try {
-			List<Juego> juegos = new JuegoDAO().obtenerTodo();
-			datos = new Object[juegos.size()][3];
+	private Object[][] buscarJuego(String filtro) {
+        HibernateUtil.openSessionAndBindToThread();
+        try {
+        	String texto = panelVentanaPrincipal.getTextoFiltro();
+			JuegoDAO juegoDao = new JuegoDAO();
+			
+			switch(filtro){
+			case "NOMBRE":
+				return obtenerListaJuego(juegoDao.buscarJuegoPorNombre(texto));
+			case "EDAD":
+				return obtenerListaJuego(juegoDao.buscarJuegoPorEdadMayor(Integer.parseInt(texto)));
+			case "PRECIO":
+				return obtenerListaJuego(juegoDao.buscarJuegoPorPrecioMayor(Double.parseDouble(texto)));
+			case "STOCK":
+				return obtenerListaJuego(juegoDao.buscarJuegoPorStockMayor(Integer.parseInt(texto)));
+			case "TODO":
+				return obtenerListaJuego(juegoDao.obtenerTodo());
+			}
+			
+		} finally {
+			HibernateUtil.closeSessionAndUnbindFromThread();
+		}
+		
+		
+		return null;
+	}
+	
+	private Object[][] obtenerListaJuego(List<Juego> juegos) {
+		Object[][] datos = null;
+		
+		if (juegos.size() != 0){
+			datos = new Object[juegos.size()][5];
 			
 			for (int i = 0; i < juegos.size(); i++){
 				datos[i][0] = juegos.get(i).getNombre();
 				datos[i][1] = juegos.get(i).getEdadMinima();
 				datos[i][2] = juegos.get(i).getPrecio();
-				//datos[i][3] = juegos.get(i).getTipoJuego();
+				datos[i][3] = juegos.get(i).getTipoJuego();
+				datos[i][4] = juegos.get(i).getStock();
+			}
+		}
+		
+		return datos;
+	} 
+	/*
+     * Fin de los metodos de busqueda de articulos
+     */
+    
+    /*
+     * Todo los metodos de buscar clientes
+     */
+	private void buscarUsuario() {
+		panelVenta.setPanelDerecho(panelBuscarUsuario);
+		panelBuscarUsuario.cargarFiltro(new String[]{"DNI","NOMBRE","APELLIDO","TELEFONO"});
+		
+		String[] columnas = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
+		
+		panelBuscarUsuario.cargarTabla(obtenerListaClientes(),columnas);
+	}
+    
+    private Object[][] obtenerListaClientes() {
+		HibernateUtil.openSessionAndBindToThread();
+		Object[][] datos;
+		try {
+			List<Cliente> clientes = new ClienteDAO().obtenerTodo();
+			datos = new Object[clientes.size()][6];
+			
+			for (int i = 0; i < clientes.size(); i++){
+				datos[i][0] = clientes.get(i).getDni();
+				datos[i][1] = clientes.get(i).getApellido();
+				datos[i][2] = clientes.get(i).getNombre();
+				datos[i][3] = clientes.get(i).getTelefono();
+				datos[i][4] = clientes.get(i).getDireccion();
+				datos[i][5] = new SimpleDateFormat("dd-MM-yyyy").format(clientes.get(i).getFechaNacimiento());
 			}
 			
 		} finally {
@@ -160,36 +298,26 @@ public class ControladorVenta implements ActionListener{
 		
 		return datos;
 	}
+	
+	/*
+     * Fin de los metodos de busqueda de clientes
+     */
 
-	private String[] obtenerColumnasJuego() {
-		return new String[]{"NOMBRE","EDAD","PRECIO"};
-	}
-
+	/*
+	 * Todos los metodos de seleccionar usuario
+	 */
 	private void buscarCliente() {
 		Object[][] datos = buscarCliente(panelBuscarUsuario.getFiltro());
-		String[] cabecera = new String[]{"DNI", "Apellidos", "Nombre", "Telï¿½fono", "Direcciï¿½n", "Fecha de Nacimiento"};
-		@SuppressWarnings("rawtypes") Class[] type = new Class[] {String.class, String.class, String.class, String.class, String.class, String.class, Date.class};
+		String[] cabecera = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
 		
 		if (datos == null){
 			JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelBuscarUsuario.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
 		}else{
-			panelBuscarUsuario.cargarTabla(datos, cabecera, type);
+			panelBuscarUsuario.cargarTabla(datos, cabecera);
 		}
 	}
-
-	private Cliente obtenerClienteTabla() {
-        HibernateUtil.openSessionAndBindToThread();
-        Cliente c = null;
-		try {
-			c = new ClienteDAO().getClientePorDni(panelBuscarUsuario.getClienteDni());
-			
-		} finally {
-			HibernateUtil.closeSessionAndUnbindFromThread();
-		}
-		return c;
-	}
-    
-    private Object[][] buscarCliente(String filtro) {
+	
+	private Object[][] buscarCliente(String filtro) {
         HibernateUtil.openSessionAndBindToThread();
         try {
         	String texto = panelBuscarUsuario.getTextoFiltro();
@@ -235,85 +363,20 @@ public class ControladorVenta implements ActionListener{
 		return datos;
 	}
     
-    private Object[][] obtenerListaClientes() {
-		HibernateUtil.openSessionAndBindToThread();
-		Object[][] datos;
-		try {
-			List<Cliente> clientes = new ClienteDAO().obtenerTodo();
-			datos = new Object[clientes.size()][6];
-			
-			for (int i = 0; i < clientes.size(); i++){
-				datos[i][0] = clientes.get(i).getDni();
-				datos[i][1] = clientes.get(i).getApellido();
-				datos[i][2] = clientes.get(i).getNombre();
-				datos[i][3] = clientes.get(i).getTelefono();
-				datos[i][4] = clientes.get(i).getDireccion();
-				datos[i][5] = new SimpleDateFormat("dd-MM-yyyy").format(clientes.get(i).getFechaNacimiento());
-			}
-			
-		} finally {
-			HibernateUtil.closeSessionAndUnbindFromThread();
-		}
-		
-		return datos;
-	}
-
-	private void buscarArticulo() {
-		Object[][] datos = buscarJuego(panelVentanaPrincipal.getFiltro());
-		String[] cabecera = new String[]{"Nombre", "Edad mï¿½nima", "Precio"};
-		@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class};
-		
-		if (datos == null){
-			JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelVentanaPrincipal.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-		}else{
-			panelVentanaPrincipal.cargarTabla1(datos, cabecera, types);
-		}
-		
-	}
-
-	private String[] obtenerColumnas() {
-		return new String[]{"DNI","NOMBRE","APELLIDO","TELEFONO"};
-	}
-    
-	private Object[][] buscarJuego(String filtro) {
+    // metodo para obtener el usuario seleccionado
+	private Cliente obtenerClienteTabla() {
         HibernateUtil.openSessionAndBindToThread();
-        try {
-        	String texto = panelVentanaPrincipal.getTextoFiltro();
-			JuegoDAO juegoDao = new JuegoDAO();
-			
-			switch(filtro){
-			case "NOMBRE":
-				return obtenerListaJuego(juegoDao.buscarJuegoPorNombre(texto));
-			case "EDAD":
-				return obtenerListaJuego(juegoDao.buscarJuegoPorEdadMayor(Integer.parseInt(texto)));
-			case "PRECIO":
-				return obtenerListaJuego(juegoDao.buscarJuegoPorPrecioMayor(Double.parseDouble(texto)));
-			case "TODO":
-				return obtenerListaJuego(juegoDao.obtenerTodo());
-			}
+        Cliente c = null;
+		try {
+			c = new ClienteDAO().getClientePorDni(panelBuscarUsuario.getClienteDni());
 			
 		} finally {
 			HibernateUtil.closeSessionAndUnbindFromThread();
 		}
-		
-		
-		return null;
+		return c;
 	}
-	
-	private Object[][] obtenerListaJuego(List<Juego> juegos) {
-		Object[][] datos = null;
-		
-		if (juegos.size() != 0){
-			datos = new Object[juegos.size()][3];
-			
-			for (int i = 0; i < juegos.size(); i++){
-				datos[i][0] = juegos.get(i).getNombre();
-				datos[i][1] = juegos.get(i).getEdadMinima();
-				datos[i][2] = juegos.get(i).getPrecio();
-			}
-		}
-		
-		return datos;
-	}
+	/*
+	 * Fin de los metodos de seleccionar usuario
+	 */
 
 }

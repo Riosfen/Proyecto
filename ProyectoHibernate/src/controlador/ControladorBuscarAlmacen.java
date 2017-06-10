@@ -11,7 +11,6 @@ import patronDAO.JuegoDAO;
 
 import persistencia.HibernateUtil;
 import persistencia.Juego;
-import persistencia.TipoJuego;
 import vista.VistaAlmacen;
 import vista.Almacen.VistaBuscarAlmacen;
 import vista.Almacen.VistaModificarAlmacen;
@@ -65,7 +64,6 @@ public class ControladorBuscarAlmacen implements ActionListener {
 			
 			Object[][] datos = null;
 			String[] cabecera = new String[]{"Nombre", "Edad mínima", "Precio", "Tipo juego"};
-			@SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, TipoJuego.class};
 			
 			try {
 				datos = buscarJuego(panelBuscarAlmacen.getFiltro());
@@ -79,7 +77,7 @@ public class ControladorBuscarAlmacen implements ActionListener {
 			if (datos == null){
 				JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelBuscarAlmacen.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
 			}else{
-				panelBuscarAlmacen.cargarTabla(datos, cabecera, types);
+				panelBuscarAlmacen.cargarTabla(datos, cabecera);
 			}
 			break;
 		}
@@ -89,8 +87,7 @@ public class ControladorBuscarAlmacen implements ActionListener {
 	private void actualizarTabla() {
 		Object[][] datos2 = buscarJuego("TODO");
 		String[] cabecera2 = new String[]{"Nombre", "Edad mínima", "Precio", "Tipo juego"};
-		@SuppressWarnings("rawtypes") Class[] types2 = new Class[] {String.class, String.class, String.class, TipoJuego.class};
-		panelBuscarAlmacen.cargarTabla(datos2, cabecera2, types2);
+		panelBuscarAlmacen.cargarTabla(datos2, cabecera2);
 		
 	}
 

@@ -47,8 +47,8 @@ public class VistaBuscarUsuario extends javax.swing.JPanel {
     public void cargarFiltro(String[] filtro){
     	jComboBoxFiltro.setModel(new DefaultComboBoxModel<String>(filtro));
     }
-    public void cargarTabla(Object[][] clientes, String[] cabecera, @SuppressWarnings("rawtypes") Class[] types){ 
-    	ModeloTablaPersonal myModeloTabla = new ModeloTablaPersonal(cabecera, clientes, types);
+    public void cargarTabla(Object[][] clientes, String[] cabecera){ 
+    	ModeloTablaPersonal myModeloTabla = new ModeloTablaPersonal(cabecera, clientes);
         jTableUsuario.setModel(myModeloTabla);
     }
 

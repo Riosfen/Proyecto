@@ -48,7 +48,7 @@ public class VistaModificarUsuario extends javax.swing.JPanel {
         jButtonAgregar.addActionListener(e);
         jButtonLimpiar.addActionListener(e);
         
-        jButtonAgregar.setActionCommand("agregar");
+        jButtonAgregar.setActionCommand("modificar");
         jButtonLimpiar.setActionCommand("limpiar");
     
     }
