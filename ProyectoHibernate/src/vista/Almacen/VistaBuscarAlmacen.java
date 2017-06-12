@@ -13,7 +13,12 @@ public class VistaBuscarAlmacen extends javax.swing.JPanel {
         initComponents();
         this.setBorder(new EmptyBorder(80, 80, 80, 80));
     }
-    
+
+    /**
+     * Se agregan a los componentes que lo necesiten para controlarlos desde otra clase.
+     * 
+     * @param e ActionListener
+     */
     public void setControlador(ActionListener e){
         jButtonEditar.addActionListener(e);
         jButtonEliminar.addActionListener(e);
@@ -34,6 +39,10 @@ public class VistaBuscarAlmacen extends javax.swing.JPanel {
     	return jTextFieldFiltro.getText().toString();
     }
     
+    /**
+     * 
+     * @return devuelve el nombre de la linea seleccionada, si no hay nada seleccionado devuelve -1
+     */
     public String getJuegoNombre(){
     	String nombre = null;
     	int linea = jTableUsuario.getSelectedRow();
@@ -44,9 +53,19 @@ public class VistaBuscarAlmacen extends javax.swing.JPanel {
     	return nombre;
     }
     
+    /**
+     * 
+     * @param filtro carga un String[] al JComboBox
+     */
     public void cargarFiltro(String[] filtro){
     	jComboBoxFiltro.setModel(new DefaultComboBoxModel<String>(filtro));
     }
+    
+    /**
+     * 
+     * @param Juegos Object[][] carga el contenido en la tabla
+     * @param cabecera String[] carga el contenido a la cabecera de la tabla
+     */
     public void cargarTabla(Object[][] Juegos, String[] cabecera){ 
     	ModeloTablaPersonal myModeloTabla = new ModeloTablaPersonal(cabecera, Juegos);
         jTableUsuario.setModel(myModeloTabla);

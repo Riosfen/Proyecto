@@ -76,23 +76,7 @@ public class ControladorFactura implements ActionListener{
                 System.out.println("no hay ayuda todaía");
                 break;
             case "buscar":
-            	Object[][] datos = null;
-    			String[] cabecera = new String[]{"DNI", "Apellido", "Nombre", "Compras realizadas"};
-    			
-    			try {
-    				datos = buscarJuego(panelFacturaCliente.getFiltro());
-    				
-    			} catch (NullPointerException e2) {
-    				JOptionPane.showMessageDialog(null, "Base de datos vacía, considere introducir datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-    			} catch (NumberFormatException e2){
-    				JOptionPane.showMessageDialog(null, "Asegurese de escribir un número mayor a 0.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-    			}
-    			
-    			if (datos == null){
-    				JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelFacturaCliente.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-    			}else{
-    				panelFacturaCliente.cargarTablaCliente(datos, cabecera);
-    			}
+			buscar();
                 break;
             case "eliminar":
             	try {
@@ -121,6 +105,30 @@ public class ControladorFactura implements ActionListener{
                 break;
         }
     }
+    
+    
+    
+    
+
+	private void buscar() {
+		Object[][] datos = null;
+		String[] cabecera = new String[]{"DNI", "Apellido", "Nombre", "Compras realizadas"};
+		
+		try {
+			datos = buscarJuego(panelFacturaCliente.getFiltro());
+			
+		} catch (NullPointerException e2) {
+			JOptionPane.showMessageDialog(null, "Base de datos vacía, considere introducir datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		} catch (NumberFormatException e2){
+			JOptionPane.showMessageDialog(null, "Asegurese de escribir un número mayor a 0.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		if (datos == null){
+			JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelFacturaCliente.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		}else{
+			panelFacturaCliente.cargarTablaCliente(datos, cabecera);
+		}
+	}
     
     private Object[][] buscarJuego(String filtro) {
         HibernateUtil.openSessionAndBindToThread();
@@ -164,6 +172,11 @@ public class ControladorFactura implements ActionListener{
 		return datos;
 	}
 	
+	
+	
+	
+	
+	
 	private void asignarCompraMouseListener() {
     	panelFacturaCliente.getTablaCompra().addMouseListener(new MouseListener() {
 			
@@ -204,6 +217,11 @@ public class ControladorFactura implements ActionListener{
 			}
 		});
     }
+	
+	
+	
+	
+	
     
     private void asignarClienteMouseListener() {
     	panelFacturaCliente.getTablaCliente().addMouseListener(new MouseListener() {

@@ -46,6 +46,10 @@ public class ControladorModificarAlmacen implements ActionListener {
 		
 	}
 	
+	/**
+	 * 
+	 * @param juego Juego que se actualizara
+	 */
 	private void actualizarAlmacen(Juego juego) {
 		HibernateUtil.openSessionAndBindToThread();
 		

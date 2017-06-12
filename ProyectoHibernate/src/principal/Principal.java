@@ -25,7 +25,6 @@ public class Principal {
         
         ventana.setContentPane(vp);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //ventana.setSize(500,500);
         ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ventana.setUndecorated(true);
         ventana.setVisible(true);

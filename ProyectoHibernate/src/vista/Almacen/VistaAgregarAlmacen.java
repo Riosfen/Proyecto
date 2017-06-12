@@ -23,7 +23,12 @@ public class VistaAgregarAlmacen extends javax.swing.JPanel {
         JComboBoxTipoJuego.setModel(new DefaultComboBoxModel<TipoJuego>(TipoJuego.values()));
         
     }
-    
+
+    /**
+     * Se agregan a los componentes que lo necesiten para controlarlos desde otra clase.
+     * 
+     * @param e ActionListener
+     */
     public void setControlador(ActionListener e){
         jButtonAgregar.addActionListener(e);
         jButtonLimpiar.addActionListener(e);
@@ -36,6 +41,7 @@ public class VistaAgregarAlmacen extends javax.swing.JPanel {
     public String getNombre(){
     	return jTextFieldNombre.getText().toString();
     }
+    
     public int getEdadMinima(){
     	int resul = -1;
     	
@@ -205,7 +211,7 @@ public class VistaAgregarAlmacen extends javax.swing.JPanel {
         add(jLabelImagen, gridBagConstraints);
 
         jLabelDescripcion.setFont(new java.awt.Font("Tahoma", 0, 24));
-        jLabelDescripcion.setText("AGREGAR UN NUEVO ARTÍCULO");
+        jLabelDescripcion.setText("AGREGAR UN NUEVO ARTICULO");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;

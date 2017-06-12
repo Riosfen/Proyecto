@@ -37,6 +37,12 @@ public class VistaPrincipal extends javax.swing.JPanel {
         this.add(barra, BorderLayout.NORTH);
     }
     
+    /**
+     * Agrega una imagen arriba del texto
+     * 
+     * @param urlImagen Direccion de la imagen String
+     * @param boton JButton afectado
+     */
     private void botonConImagenGrandeTexto(String urlImagen, JButton boton){
         ImageIcon imagen = new ImageIcon(urlImagen);
         boton.setIcon(imagen);
@@ -44,7 +50,13 @@ public class VistaPrincipal extends javax.swing.JPanel {
         boton.setHorizontalTextPosition(SwingConstants.CENTER);
         boton.setVerticalTextPosition(SwingConstants.BOTTOM);
     }
-    
+
+    /**
+     * Agrega una imagen a la izquierda del texto
+     * 
+     * @param urlImagen Direccion de la imagen String
+     * @param boton JButton afectado
+     */
     private void botonConImagenTexto(String urlImagen, JButton boton){
         ImageIcon imagen = new ImageIcon(urlImagen);
         boton.setIcon(imagen);
@@ -55,7 +67,12 @@ public class VistaPrincipal extends javax.swing.JPanel {
     //
     // Fin
     //
-    
+
+    /**
+     * Se agregan a los componentes que lo necesiten para controlarlos desde otra clase.
+     * 
+     * @param c ActionListener
+     */
      public void setControlador(ActionListener c) {
          jButtonAlmacen.setActionCommand("almacen");
          jButtonUsuario.setActionCommand("usuario");

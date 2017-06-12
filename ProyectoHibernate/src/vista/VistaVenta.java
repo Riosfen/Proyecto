@@ -25,10 +25,13 @@ public class VistaVenta extends javax.swing.JPanel {
         this.add(panelPostizo, BorderLayout.CENTER);
         
     }
-    
-    public void setControlador(ActionListener e){
-        
-    }
+
+    /**
+     * Nuevo controlador vacio, se utiliza mas adelante
+     * 
+     * @param e ActionListener
+     */
+    public void setControlador(ActionListener e){}
     
     public BigPanel getBigPanel(){
         return barra;

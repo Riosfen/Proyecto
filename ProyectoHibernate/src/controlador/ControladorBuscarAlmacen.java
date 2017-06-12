@@ -32,20 +32,7 @@ public class ControladorBuscarAlmacen implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()){
 		case "editar":
-			try {
-				
-				Juego juego = obtenerJuegoTabla();
-				this.panelModificarAlmacen = new VistaModificarAlmacen(juego);
-	            panelModificarAlmacen.setControlador(new ControladorModificarAlmacen(panelModificarAlmacen));
-	            panelAlmacen.setPanelDerecho(panelModificarAlmacen);
-	            
-				actualizarTabla();
-                panelAlmacen.getBotonAgregar().setEnabled(true);
-                panelAlmacen.getBotonBuscar().setEnabled(true);
-	            
-			} catch (Exception e2) {
-				JOptionPane.showMessageDialog(null, "No se ha encontrado el artículo seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-			}
+			editar();
             
 			break;
 		case "eliminar":
@@ -62,26 +49,81 @@ public class ControladorBuscarAlmacen implements ActionListener {
 			break;
 		case "buscar":
 			
-			Object[][] datos = null;
-			String[] cabecera = new String[]{"Nombre", "Edad mínima", "Precio", "Tipo juego"};
-			
-			try {
-				datos = buscarJuego(panelBuscarAlmacen.getFiltro());
-				
-			} catch (NullPointerException e2) {
-				JOptionPane.showMessageDialog(null, "Base de datos vacía, considere introducir datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-			} catch (NumberFormatException e2){
-				JOptionPane.showMessageDialog(null, "Asegurese de escribir un número mayor a 0.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-			}
-			
-			if (datos == null){
-				JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelBuscarAlmacen.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-			}else{
-				panelBuscarAlmacen.cargarTabla(datos, cabecera);
-			}
+			buscar();
 			break;
 		}
 
+	}
+
+	
+	
+	
+	
+	
+	
+	//
+	// Metodos de editar articulo
+	//
+	private void editar() {
+		try {
+			
+			Juego juego = obtenerJuegoTabla();
+			this.panelModificarAlmacen = new VistaModificarAlmacen(juego);
+		    panelModificarAlmacen.setControlador(new ControladorModificarAlmacen(panelModificarAlmacen));
+		    panelAlmacen.setPanelDerecho(panelModificarAlmacen);
+		    
+			actualizarTabla();
+		    panelAlmacen.getBotonAgregar().setEnabled(true);
+		    panelAlmacen.getBotonBuscar().setEnabled(true);
+		    
+		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(null, "No se ha encontrado el artículo seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	private Juego obtenerJuegoTabla() {
+        HibernateUtil.openSessionAndBindToThread();
+        Juego j = null;
+		try {
+			j = new JuegoDAO().getJuegoPorNombre(panelBuscarAlmacen.getJuegoNombre());
+			
+		} finally {
+			HibernateUtil.closeSessionAndUnbindFromThread();
+		}
+		return j;
+	}
+	//
+	// Fin de metodos de editar articulo
+	//
+
+	
+	
+	
+	
+	
+	
+	
+	//
+	// Inicio metodos muscar articulo
+	//
+	private void buscar() {
+		Object[][] datos = null;
+		String[] cabecera = new String[]{"Nombre", "Edad mínima", "Precio", "Tipo juego"};
+		
+		try {
+			datos = buscarJuego(panelBuscarAlmacen.getFiltro());
+			
+		} catch (NullPointerException e2) {
+			JOptionPane.showMessageDialog(null, "Base de datos vacía, considere introducir datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		} catch (NumberFormatException e2){
+			JOptionPane.showMessageDialog(null, "Asegurese de escribir un número mayor a 0.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		if (datos == null){
+			JOptionPane.showMessageDialog(null, "No se ha encontrado nada relacionado con '"+ panelBuscarAlmacen.getTextoFiltro() +"' en la base de datos.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		}else{
+			panelBuscarAlmacen.cargarTabla(datos, cabecera);
+		}
 	}
 	
 	private void actualizarTabla() {
@@ -132,17 +174,8 @@ public class ControladorBuscarAlmacen implements ActionListener {
 		
 		return datos;
 	}
-	
-	private Juego obtenerJuegoTabla() {
-        HibernateUtil.openSessionAndBindToThread();
-        Juego j = null;
-		try {
-			j = new JuegoDAO().getJuegoPorNombre(panelBuscarAlmacen.getJuegoNombre());
-			
-		} finally {
-			HibernateUtil.closeSessionAndUnbindFromThread();
-		}
-		return j;
-	}
+	//
+	// Fin de metodos muscar articulo
+	//
 
 }

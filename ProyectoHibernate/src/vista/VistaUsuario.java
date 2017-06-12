@@ -47,7 +47,12 @@ public class VistaUsuario extends javax.swing.JPanel {
         boton.setHorizontalTextPosition(SwingConstants.CENTER);
         boton.setVerticalTextPosition(SwingConstants.BOTTOM);
     }
-    
+
+    /**
+     * Se agregan a los componentes que lo necesiten para controlarlos desde otra clase.
+     * 
+     * @param e ActionListener
+     */
     public void setControlador(ActionListener e){
         jButtonAgregar.addActionListener(e);
         jButtonBuscar.addActionListener(e);

@@ -13,7 +13,12 @@ public class VistaBuscarUsuario extends javax.swing.JPanel {
         initComponents();
         this.setBorder(new EmptyBorder(80, 80, 80, 80));
     }
-    
+
+    /**
+     * Se agregan a los componentes que lo necesiten para controlarlos desde otra clase.
+     * 
+     * @param e ActionListener
+     */
     public void setControlador(ActionListener e){
         jButtonEditar.addActionListener(e);
         jButtonEliminar.addActionListener(e);
@@ -44,9 +49,19 @@ public class VistaBuscarUsuario extends javax.swing.JPanel {
     	return dni;
     }
     
+    /**
+     * 
+     * @param filtro String[] carga los datos al JComboBox
+     */
     public void cargarFiltro(String[] filtro){
     	jComboBoxFiltro.setModel(new DefaultComboBoxModel<String>(filtro));
     }
+    
+    /**
+     * 
+     * @param clientes Object[][] introduce los datos en la tabla
+     * @param cabecera String[] introduce los datos de la cabecera en la tabla
+     */
     public void cargarTabla(Object[][] clientes, String[] cabecera){ 
     	ModeloTablaPersonal myModeloTabla = new ModeloTablaPersonal(cabecera, clientes);
         jTableUsuario.setModel(myModeloTabla);

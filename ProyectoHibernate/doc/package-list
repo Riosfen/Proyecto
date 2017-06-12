@@ -1,0 +1,10 @@
+controlador
+modelo
+patronDAO
+persistencia
+principal
+vista
+vista.Almacen
+vista.Factura
+vista.Usuario
+vista.Ventana

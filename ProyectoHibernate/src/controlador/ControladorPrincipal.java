@@ -38,7 +38,7 @@ public class ControladorPrincipal implements ActionListener{
                 System.exit(0);
                 break;
             case "ayuda":
-                System.out.println("no hay ayuda todavÃ­a");
+                System.out.println("no hay ayuda todavía");
                 break;
             case "almacen":
                 

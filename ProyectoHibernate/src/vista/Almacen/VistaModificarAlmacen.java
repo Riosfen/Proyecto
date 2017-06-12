@@ -13,6 +13,11 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
     
     private Juego juego;
 
+    /**
+     * Crea VistaModificarAlmacen con un articulo Juego pasado por parametro
+     * 
+     * @param juego Juego articulo el cual cargaremos sus datos a la vista.
+     */
     public VistaModificarAlmacen(Juego juego) {
         this.juego = juego;
         initComponents();
@@ -33,10 +38,19 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
 		
 	}
 
+    /**
+     * 
+     * @return Obtenemos el articulo Juego
+     */
 	public Juego getJuego() {
 		return juego;
 	}
-	
+
+    /**
+     * Se agregan a los componentes que lo necesiten para controlarlos desde otra clase.
+     * 
+     * @param e ActionListener
+     */
 	public void setControlador(ActionListener e) {
         jButtonAgregar1.addActionListener(e);
         jButtonLimpiar1.addActionListener(e);
@@ -46,9 +60,18 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
 		
 	}
 	
+	/**
+	 * 
+	 * @return se obtiene un String con el nombre del articulo
+	 */
 	public String getNombre(){
     	return jTextFieldNombre1.getText().toString();
     }
+	
+	/**
+	 * 
+	 * @return se obtiene un int con la edad minima del articulo
+	 */
 	public int getEdadMinima(){
     	int resul = -1;
     	
@@ -59,6 +82,10 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
     	return resul;
     }
     
+	/**
+	 * 
+	 * @return se obtiene un double con el precio del articulo
+	 */
     public double getPrecio(){
     	double resul = -1;
     	
@@ -69,6 +96,10 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
     	return resul;
     }
     
+    /**
+     * 
+     * @return devuelve un TipoJuego con el tipo del articulo que es
+     */
     public TipoJuego getTipoJuego(){
     	TipoJuego tipo = TipoJuego.NO_DEFINIDO;
     	
@@ -86,6 +117,10 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
 		jFormattedTextFieldPrecio1.setText("");
 	}
 	
+	/**
+	 * 
+	 * @return devuelve un int con el stock del articulo
+	 */
 	public int getStock() {
     	int resul = -1;
     	
@@ -219,7 +254,7 @@ public class VistaModificarAlmacen extends javax.swing.JPanel {
         add(jLabelImagen1, gridBagConstraints);
 
         jLabelDescripcion1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabelDescripcion1.setText("MODIFICAR UN NUEVO ARTÍCULO");
+        jLabelDescripcion1.setText("MODIFICAR UN NUEVO ARTICULO");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;

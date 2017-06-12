@@ -14,7 +14,12 @@ public class VistaAgregarUsuario extends javax.swing.JPanel {
         initComponents();
         this.setBorder(new EmptyBorder(80, 80, 80, 80));
     }
-    
+
+    /**
+     * Se agregan a los componentes que lo necesiten para controlarlos desde otra clase.
+     * 
+     * @param e ActionListener
+     */
     public void setControlador(ActionListener e){
         jButtonAgregar.addActionListener(e);
         jButtonLimpiar.addActionListener(e);

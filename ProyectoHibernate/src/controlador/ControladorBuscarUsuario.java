@@ -57,6 +57,9 @@ public class ControladorBuscarUsuario implements ActionListener {
 			panelBuscarUsuario.cargarTabla(datos, cabecera);
 		}
 	}
+	
+	
+	
 
 	private void eliminarCliente() {
 		try {
@@ -68,10 +71,11 @@ public class ControladorBuscarUsuario implements ActionListener {
 			JOptionPane.showMessageDialog(null, "No se ha encontrado al cliente seleccionado o no se ha seleccionado ninguno.", "ERROR!", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	
+	
 
 	private void editarCliente() {
-
-		
 		try {
 			Cliente cliente = obtenerClienteTabla();
 			this.panelModificarUsuario = new VistaModificarUsuario(cliente);
@@ -87,15 +91,6 @@ public class ControladorBuscarUsuario implements ActionListener {
 		}
 	}
 
-	
-	
-	private void actualizarTabla() {
-		Object[][] datos2 = buscarCliente("TODO");
-		String[] cabecera2 = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
-		panelBuscarUsuario.cargarTabla(datos2, cabecera2);
-		
-	}
-
 	private Cliente obtenerClienteTabla() {
         HibernateUtil.openSessionAndBindToThread();
         Cliente c = null;
@@ -107,6 +102,16 @@ public class ControladorBuscarUsuario implements ActionListener {
 		}
 		return c;
 	}
+	
+	private void actualizarTabla() {
+		Object[][] datos2 = buscarCliente("TODO");
+		String[] cabecera2 = new String[]{"DNI", "Apellidos", "Nombre", "Teléfono", "Dirección", "Fecha de Nacimiento"};
+		panelBuscarUsuario.cargarTabla(datos2, cabecera2);
+		
+	}
+	
+	
+	
 
 	private Object[][] buscarCliente(String filtro) {
         HibernateUtil.openSessionAndBindToThread();

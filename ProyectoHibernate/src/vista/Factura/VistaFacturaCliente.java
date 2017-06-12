@@ -14,14 +14,16 @@ import modelo.ModeloTablaPersonal;
 @SuppressWarnings("serial")
 public class VistaFacturaCliente extends javax.swing.JPanel {
 
-    /**
-     * Creates new form VistaBuscarUsuario
-     */
     public VistaFacturaCliente() {
         initComponents();
         this.setBorder(new EmptyBorder(80, 80, 80, 80));
     }
-    
+
+    /**
+     * Se agregan a los componentes que lo necesiten para controlarlos desde otra clase.
+     * 
+     * @param e ActionListener
+     */
     public void setControlador(ActionListener e){
         jButtonEliminar.addActionListener(e);
         jTextFieldFiltro.addActionListener(e);
@@ -35,48 +37,49 @@ public class VistaFacturaCliente extends javax.swing.JPanel {
         
     }
     
-    public JButton getBotonCompraEliminar(){
-    	return jButton1;
-    }
-    
-    public JButton getBotonDetalle(){
-    	return jButtonEliminar;
-    }
-    
+    /**
+     * 
+     * @return devuelve un String con el item seleccionado del JComboBox
+     */
     public String getFiltro(){
     	return jComboBoxFiltro.getSelectedItem().toString();
     }
+    
+    /**
+     * 
+     * @return devuelve un String con el contenido de JTextField
+     */
     public String getTextoFiltro(){
     	return jTextFieldFiltro.getText().toString();
     }
     
-    public String getJuegoNombre(){
-    	String nombre = null;
-    	int linea = jTableUsuario.getSelectedRow();
-    	if (linea != -1){
-    		nombre = jTableUsuario.getValueAt(linea, 0).toString();
-    	}
-    	
-    	return nombre;
-    }
-    
+    /**
+     * 
+     * @param filtro String[] se carga el JComboBox con el filtro
+     */
     public void cargarFiltro(String[] filtro){
     	jComboBoxFiltro.setModel(new DefaultComboBoxModel<String>(filtro));
     }
     
+    /**
+     * 
+     * @param Juegos Object[][] se carga los datos de la tabla
+     * @param cabecera String[] se carga la cabecera de la tabla
+     */
     public void cargarTablaCliente(Object[][] Juegos, String[] cabecera){ 
     	ModeloTablaPersonal myModeloTabla = new ModeloTablaPersonal(cabecera, Juegos);
         jTableUsuario.setModel(myModeloTabla);
     }
     
-    public Object getSelectedRowCliente() {
-    	return jTableUsuario.getSelectedRow();
-	}
-    
     public JTable getTablaCliente() {
     	return jTableUsuario;
 	}
-    
+
+    /**
+     * 
+     * @param Juegos Object[][] se carga los datos de la tabla
+     * @param cabecera String[] se carga la cabecera de la tabla
+     */
     public void cargarTablaDetalle(Object[][] Juegos, String[] cabecera){ 
     	ModeloTablaPersonal myModeloTabla = new ModeloTablaPersonal(cabecera, Juegos);
     	jTableCompra.setModel(myModeloTabla);
@@ -85,7 +88,12 @@ public class VistaFacturaCliente extends javax.swing.JPanel {
     public JTable getTablaDetalle() {
 		return jTableCompra;
 	}
-    
+
+    /**
+     * 
+     * @param Juegos Object[][] se carga los datos de la tabla
+     * @param cabecera String[] se carga la cabecera de la tabla
+     */
     public void cargarTablaCompra(Object[][] Juegos, String[] cabecera){ 
     	ModeloTablaPersonal myModeloTabla = new ModeloTablaPersonal(cabecera, Juegos);
     	jTableDetalle.setModel(myModeloTabla);

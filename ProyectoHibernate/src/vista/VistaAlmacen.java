@@ -16,12 +16,12 @@ public class VistaAlmacen extends javax.swing.JPanel {
     private static final String URL_AGREGAR = "recursos/anadir.png";
     private static final String URL_BUSCAR = "recursos/buscar.png";
 
-    //El panel postizo es el panel al que aÃ±adiremos los
-    //diferentes paneles que tenga esa vista y refrescaremos.
-    //
     private final BigPanel barra;
     private JPanel panelPostizo;
-    
+     /**
+      * 
+      * @param barra BigPanel (bean proporcionado)
+      */
     public VistaAlmacen(BigPanel barra) {
         this.barra = barra;
         initComponents();
@@ -48,6 +48,11 @@ public class VistaAlmacen extends javax.swing.JPanel {
         boton.setVerticalTextPosition(SwingConstants.BOTTOM);
     }
     
+    /**
+     * Se agregan a los componentes que lo necesiten para controlarlos desde otra clase.
+     * 
+     * @param e ActionListener
+     */
     public void setControlador(ActionListener e){
         jButtonAgregar.addActionListener(e);
         jButtonBuscar.addActionListener(e);
@@ -57,10 +62,20 @@ public class VistaAlmacen extends javax.swing.JPanel {
         
     }
     
+    /**
+     * Devuelve el beans BigPanel.
+     * 
+     * @return BigPanel.
+     */
     public BigPanel getBigPanel(){
         return barra;
     }
     
+    /**
+     * Introduce el componente pasado por parametro al centro del contenedor superior.
+     * 
+     * @param panelDerecho Component generalmente JPanel, JScrollPanel...
+     */
     public void setPanelDerecho(JPanel panelDerecho){
         panelPostizo.removeAll();
         panelPostizo.add(panelDerecho, java.awt.BorderLayout.CENTER);
@@ -69,14 +84,29 @@ public class VistaAlmacen extends javax.swing.JPanel {
         
     }
     
+    /**
+     * Devuelve un Component JButton
+     * 
+     * @return JButton
+     */
     public JButton getBotonAgregar(){
     	return jButtonAgregar;
     }
     
+    /**
+     * Devuelve un Component JButton
+     * 
+     * @return JButton
+     */
     public JButton getBotonBuscar(){
     	return jButtonBuscar;
     }
     
+    /**
+     * Activa los botones {@code 
+     * jButtonAgregar.setEnabled(true);
+     * jButtonBuscar.setEnabled(true);}
+     */
     public void setActivarBotones(){
     	jButtonAgregar.setEnabled(true);
     	jButtonBuscar.setEnabled(true);
@@ -94,11 +124,11 @@ public class VistaAlmacen extends javax.swing.JPanel {
         jPanelListaBotones.setLayout(new java.awt.GridLayout(0, 1, 80, 80));
 
         jButtonAgregar.setFont(new java.awt.Font("Tahoma", 1, 24));
-        jButtonAgregar.setText("AGREGAR ARTÍCULO");
+        jButtonAgregar.setText("AGREGAR ARTICULO");
         jPanelListaBotones.add(jButtonAgregar);
 
         jButtonBuscar.setFont(new java.awt.Font("Tahoma", 1, 24));
-        jButtonBuscar.setText("BUSCAR ARTÍCULO");
+        jButtonBuscar.setText("BUSCAR ARTICULO");
         jPanelListaBotones.add(jButtonBuscar);
 
         jScrollPaneListaBotones.setViewportView(jPanelListaBotones);

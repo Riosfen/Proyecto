@@ -44,6 +44,10 @@ public class ControladorModificarUsuario implements ActionListener {
 
 	}
 
+	/**
+	 * 
+	 * @param cliente Cliente que se actualizara
+	 */
 	private void actualizarCliente(Cliente cliente) {
 		HibernateUtil.openSessionAndBindToThread();
 		

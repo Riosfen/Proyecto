@@ -43,7 +43,12 @@ public class VistaModificarUsuario extends javax.swing.JPanel {
     public Cliente getCliente(){
     	return cliente;
     }
-    
+
+    /**
+     * Se agregan a los componentes que lo necesiten para controlarlos desde otra clase.
+     * 
+     * @param e ActionListener
+     */
     public void setControlador(ActionListener e){
         jButtonAgregar.addActionListener(e);
         jButtonLimpiar.addActionListener(e);

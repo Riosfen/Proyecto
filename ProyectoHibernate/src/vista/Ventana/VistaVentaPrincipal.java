@@ -19,10 +19,6 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
 	
     private ModeloTablaPersonal modeloTablaCola;
     
-    /**
-     * Creates new form VistaAlmacen
-     * @param barra
-     */
     public VistaVentaPrincipal() {
         initComponents();
         cargarAjustesComponentes();
@@ -31,7 +27,12 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
     private void cargarAjustesComponentes() {
     	this.setBorder(new EmptyBorder(80, 80, 80, 80));
     }
-    
+
+    /**
+     * Se agregan a los componentes que lo necesiten para controlarlos desde otra clase.
+     * 
+     * @param e ActionListener
+     */
     public void setControlador(ActionListener e){
     	jButtonBuscarArticulo.addActionListener(e);
         jButtonBuscar.addActionListener(e);
@@ -79,20 +80,38 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
     	
     	return nombre;
     }
-    
+     /**
+      * 
+      * @param filtro String[] carga datos al JComboBox
+      */
     public void cargarFiltro(String[] filtro){
     	jComboBox1.setModel(new DefaultComboBoxModel<String>(filtro));
     }
-    public void cargarTabla1(Object[][] Juegos, String[] cabecera, @SuppressWarnings("rawtypes") Class[] types){ 
+
+    /**
+     * 
+     * @param Juegos Object[][] carga datos a la tabla
+     * @param cabecera String[] carga cabecera a la tabla
+     */
+    public void cargarTabla1(Object[][] Juegos, String[] cabecera){ 
     	modeloTablaCola = new ModeloTablaPersonal(cabecera, Juegos);
         jTable3.setModel(modeloTablaCola);
     }
 
-    public void cargarTabla2(Object[][] Juegos, String[] cabecera, @SuppressWarnings("rawtypes") Class[] types){ 
+    /**
+     * 
+     * @param Juegos Object[][] carga datos a la tabla
+     * @param cabecera String[] carga cabecera a la tabla
+     */
+    public void cargarTabla2(Object[][] Juegos, String[] cabecera){ 
     	modeloTablaCola = new ModeloTablaPersonal(cabecera, Juegos);
         jTable4.setModel(modeloTablaCola);
     }
     
+    /**
+     * 
+     * @param fila Object[] aniade una fila a la tabla compra
+     */
     public void tablaCompraAnniadirCompra(Object[] fila){
 		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
     	modelo.addRow(fila);
@@ -122,20 +141,6 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
 		return jTable4.getRowCount();
 	}
 
-	public void setCantidadTablaCompraMas(int fila) {
-		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
-		int valor = (int) modelo.getValueAt(fila, 1) + 1;
-		
-		jTable4.setValueAt(valor, fila, 1);
-	}
-	
-	public void setCantidadTablaCompraMenos(int fila) {
-		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
-		int valor = (int) modelo.getValueAt(fila, 1) + 1;
-		
-		jTable4.setValueAt(valor, fila, 1);
-	}    
-
 	public int getFilaSelecStock() {
 		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
 		int fila = jTable4.getSelectedRow();
@@ -162,6 +167,10 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
 		return Integer.valueOf(modelo.getValueAt(0, 1).toString());
 	}
 	
+	/**
+	 * 
+	 * @return String[][] devuelve los datos que contenga la tabla
+	 */
 	public String[][] getTablaCompra() {
 		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
 		String[][] listaCobrar = new String[modelo.getRowCount()][modelo.getColumnCount()];
