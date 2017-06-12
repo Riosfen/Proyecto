@@ -29,17 +29,20 @@ public class LineaVenta implements Serializable {
 	@JoinColumn(name="ID_JUEGO")
 	private Juego juego;
 
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name="ID_VENTA")
 	private Venta venta;
-	
+
+	@NotNull
+	@Column(name="CANTIDAD")
+	private int cantidad;
 	
 	public LineaVenta(){}
 	
-	public LineaVenta(Juego juego, Venta venta){
+	public LineaVenta(Juego juego, Venta venta, int cantidad){
 		this.juego = juego;
 		this.venta = venta;
+		this.cantidad = cantidad;
 	}
 	
 	public int getId() {
@@ -51,7 +54,13 @@ public class LineaVenta implements Serializable {
 	public Venta getVenta() {
 		return venta;
 	}
+	public int getCantidad() {
+		return cantidad;
+	}
 	
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
 	public void setVenta(Venta venta) {
 		this.venta = venta;
 	}

@@ -103,13 +103,23 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
 		while (modelo.getRowCount()>0) modelo.removeRow(0);
 		
 	}
-
-	public int getSizeRowTablaCompra() {
-		return jTable4.getRowCount();
+	
+	public void eliminarSelectFilaTablaCompra() {
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+		modelo.removeRow(getselectedRowTablaCompra());
+	}
+	
+	public void eliminarFilaTablaCompra() {
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+		modelo.removeRow(0);
 	}
 	
 	public int getselectedRowTablaCompra() {
 		return jTable4.getSelectedRow();
+	}
+
+	public int getSizeRowTablaCompra() {
+		return jTable4.getRowCount();
 	}
 
 	public void setCantidadTablaCompraMas(int fila) {
@@ -124,12 +134,7 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
 		int valor = (int) modelo.getValueAt(fila, 1) + 1;
 		
 		jTable4.setValueAt(valor, fila, 1);
-	}
-	
-	public void eliminarFilaTablaCompra() {
-		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
-		modelo.removeRow(getselectedRowTablaCompra());
-	}           
+	}    
 
 	public int getFilaSelecStock() {
 		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
@@ -143,6 +148,30 @@ public class VistaVentaPrincipal extends javax.swing.JPanel {
 		int fila = jTable4.getSelectedRow();
 		
 		return modelo.getValueAt(fila, 0).toString();
+	}
+
+	public String getFilaNombre() {
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+		
+		return modelo.getValueAt(0, 0).toString();
+	}
+	
+	public int getFilaStock(){
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+		
+		return Integer.valueOf(modelo.getValueAt(0, 1).toString());
+	}
+	
+	public String[][] getTablaCompra() {
+		DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
+		String[][] listaCobrar = new String[modelo.getRowCount()][modelo.getColumnCount()];
+		
+		for(int i = 0; i < modelo.getRowCount(); i++){
+			listaCobrar[i][0] = modelo.getValueAt(i, 0).toString();
+			listaCobrar[i][1] = modelo.getValueAt(i, 1).toString();
+			listaCobrar[i][2] = modelo.getValueAt(i, 2).toString();
+		}
+		return listaCobrar;
 	}
 
     private void initComponents() {

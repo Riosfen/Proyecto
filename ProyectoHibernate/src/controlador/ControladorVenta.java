@@ -3,6 +3,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -10,11 +11,14 @@ import javax.swing.JOptionPane;
 
 import patronDAO.ClienteDAO;
 import patronDAO.JuegoDAO;
-
+import patronDAO.LineaVentaDAO;
+import patronDAO.VentaDAO;
 import persistencia.Cliente;
 import persistencia.HibernateUtil;
 import persistencia.Juego;
+import persistencia.LineaVenta;
 import persistencia.TipoJuego;
+import persistencia.Venta;
 import vista.VistaVenta;
 import vista.Ventana.VistaBuscarUsuarioEspecifico;
 import vista.Ventana.VistaVentaPrincipal;
@@ -26,6 +30,8 @@ public class ControladorVenta implements ActionListener{
     private VistaBuscarUsuarioEspecifico panelBuscarUsuario;
     private VistaVentaPrincipal panelVentanaPrincipal;
     
+    private VentaDAO ventaDao;
+    private JuegoDAO juegoDao;
     private Cliente cliente;
     
     public ControladorVenta(VistaVenta panelVenta, JDialog ventana){
@@ -41,6 +47,9 @@ public class ControladorVenta implements ActionListener{
     	this.panelBuscarUsuario.setControlador(this);
         
         this.cliente = null;
+
+    	juegoDao = new JuegoDAO();
+    	ventaDao = new VentaDAO();
         cargarFiltroJuego();
         
         HibernateUtil.buildSessionFactory();
@@ -48,7 +57,7 @@ public class ControladorVenta implements ActionListener{
     }
 
     /*
-     * Carga la tabla con todos los articulos
+     * Carga la tabla con todos los articulos y una tabla vacía para la compra
      */
 	private void cargarFiltroJuego() {
 		panelVentanaPrincipal.cargarFiltro(new String[]{"NOMBRE","EDAD","PRECIO", "STOCK"});
@@ -57,7 +66,7 @@ public class ControladorVenta implements ActionListener{
         @SuppressWarnings("rawtypes") Class[] types = new Class[] {String.class, String.class, String.class, TipoJuego.class, String.class};
 
         panelVentanaPrincipal.cargarTabla1(obtenerListaJuegos(),columnas, types);
-        panelVentanaPrincipal.cargarTabla2(new Object[][]{{"","",""}}, new String[]{"Nombre artículo", "Stock", "Precio"}, new Class[]{String.class, String.class, String.class});
+        panelVentanaPrincipal.cargarTabla2(null, new String[]{"Nombre artículo", "Stock", "Precio"}, new Class[]{String.class, String.class, String.class});
 	}
     
     private Object[][] obtenerListaJuegos() {
@@ -86,10 +95,17 @@ public class ControladorVenta implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()){
             case "atras":
-                ventna.dispose();
+            	try {
+            		do {
+                        limpiarTablaCompra();
+					} while (true);
+					
+				} catch (Exception e2) {
+	                ventna.dispose();
+				}
                 break;
             case "ayuda":
-                System.out.println("no hay ayuda todavï¿½a");//TODO hacer ayuda
+                System.out.println("no hay ayuda todavía");//TODO hacer ayuda
                 break;
             case "buscarArticulo":
         		buscarArticulo();
@@ -100,27 +116,25 @@ public class ControladorVenta implements ActionListener{
             	
                 break;
             case "cobrar":
-            	//TODO aqui se utiliza el cliente para agregarlo a una venta, puede ser null
-            	
+                HibernateUtil.openSessionAndBindToThread();
+                
+                if (panelVentanaPrincipal.getSizeRowTablaCompra() <= 0){
+					JOptionPane.showMessageDialog(null, "Cuenta vacía.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+                }else{
+        			confirmarCompra();
+                }
+                
                 break;
-            case "limpiar":
-            	int resul = JOptionPane.showConfirmDialog(null, "¿Seguro que desea borrar toda la compra?", "AVISO!!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            	if (resul == 0){
-            		panelVentanaPrincipal.limpiarTablaCompra();
-            	}
-            	
-                break;
+                
             case "aniadirArticulo":
                 HibernateUtil.openSessionAndBindToThread();
                 Juego j = null;
-				JuegoDAO juegoDao = new JuegoDAO();
 				int stock = panelVentanaPrincipal.getCantidad();
 				
             	try{
             		try {
             			
                     	j = juegoDao.getJuegoPorNombre(panelVentanaPrincipal.getJuegoNombre());
-                    	System.out.println(panelVentanaPrincipal.getJuegoNombre());
                     	
                     	if (j.getStock()-stock < 0){
         					JOptionPane.showMessageDialog(null, "Se ha superado el limite de stock del artículo "+ j.getNombre() + ".\nEl maximo que se puede comprar es de "+ j.getStock(), "ERROR!", JOptionPane.ERROR_MESSAGE);
@@ -156,20 +170,36 @@ public class ControladorVenta implements ActionListener{
             	}
             	
                 break;
+            case "limpiar":
+            	int resul = JOptionPane.showConfirmDialog(null, "¿Seguro que desea borrar toda la compra?", "AVISO!!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            	if (resul == 0){
+            		try {
+                		limpiarTablaCompra();
+
+        			} catch (Exception e2) {
+        				JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun artículo, seleccione uno e intentelod de nuevo.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+        			}
+            	}
+            	
+                break;
             case "eliminar":
             	HibernateUtil.openSessionAndBindToThread();
-            	JuegoDAO juegoDa = new JuegoDAO();
             	
             	try{
-	            	int stoc = panelVentanaPrincipal.getFilaSelecStock();
-	            	String nombre = panelVentanaPrincipal.getFilaSelecNombre();
-	            	
-	            	Juego juego = juegoDa.getJuegoPorNombre(nombre);
-	            	juego.setStock(juego.getStock()+stoc);
-	            	
-	            	juegoDa.actualizar(juego);
-	            	
-	            	panelVentanaPrincipal.eliminarFilaTablaCompra();
+            		try {
+    	            	int stoc = panelVentanaPrincipal.getFilaSelecStock();
+    	            	String nombre = panelVentanaPrincipal.getFilaSelecNombre();
+    	            	
+    	            	Juego juego = juegoDao.getJuegoPorNombre(nombre);
+    	            	juego.setStock(juego.getStock()+stoc);
+    	            	
+    	            	juegoDao.actualizar(juego);
+    	            	
+    	            	panelVentanaPrincipal.eliminarSelectFilaTablaCompra();
+						
+					} catch (Exception e2) {
+						JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun artículo, seleccione uno e intentelod de nuevo.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+					}
             	
             	} finally {
 					HibernateUtil.closeSessionAndUnbindFromThread();
@@ -190,7 +220,7 @@ public class ControladorVenta implements ActionListener{
             case "seleccionar":
             	cliente = obtenerClienteTabla();
             	if (cliente == null){
-        			JOptionPane.showMessageDialog(null, "No se ha ningun usuario, seleccione uno y seleccione seleccionar o seleccione cancelar.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+        			JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun usuario, seleccione uno y seleccione seleccionar o seleccione cancelar.", "ERROR!", JOptionPane.ERROR_MESSAGE);
             	}else{
                 	panelVenta.setPanelDerecho(panelVentanaPrincipal);
                 	panelVentanaPrincipal.setFiltroCliente(cliente.getDni()+" "+cliente.getNombre()+" "+cliente.getApellido());
@@ -199,6 +229,64 @@ public class ControladorVenta implements ActionListener{
             	break;
         }
     }
+
+	private void confirmarCompra() {
+		try{
+			try {
+		    	//TODO aqui se utiliza el cliente para agregarlo a una venta, puede ser null
+		    	Venta venta = new Venta();
+		    	ventaDao.guardar(venta);
+		    	
+		    	LineaVentaDAO lineaVentaDao = new LineaVentaDAO();
+		    	ArrayList<LineaVenta> lineaVentas = new ArrayList<>();
+		    	
+		    	String[][] juegos = panelVentanaPrincipal.getTablaCompra();
+		    	
+		    	for (String[] s : juegos){
+		    		Juego j = juegoDao.getJuegoPorNombre(s[0]);
+		    		int stock = Integer.valueOf(s[1]);
+		    		
+		        	LineaVenta linea = new LineaVenta(j, venta, stock);
+		        	lineaVentaDao.guardar(linea);
+		    		lineaVentas.add(linea);
+		    		
+		    	}
+		    	
+		    	venta.setCliente(cliente);
+		    	venta.setLineaVentas(lineaVentas);
+		    	
+		    	ventaDao.actualizar(venta);
+		    	
+		    	panelVentanaPrincipal.limpiarTablaCompra();
+				
+			} catch (Exception e2) {
+				JOptionPane.showMessageDialog(null, "Cuenta vacía.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		} finally {
+			HibernateUtil.closeSessionAndUnbindFromThread();
+		}
+	}
+
+	private void limpiarTablaCompra() {
+		HibernateUtil.openSessionAndBindToThread();
+		
+		try{
+		    int stoc = panelVentanaPrincipal.getFilaStock();
+		    String nombre = panelVentanaPrincipal.getFilaNombre();
+		    	
+		    Juego juego = juegoDao.getJuegoPorNombre(nombre);
+		    juego.setStock(juego.getStock()+stoc);
+		    	
+		    juegoDao.actualizar(juego);
+		    	
+		    panelVentanaPrincipal.eliminarFilaTablaCompra();
+				
+		
+		} finally {
+			HibernateUtil.closeSessionAndUnbindFromThread();
+		}
+	}
     
     /*
      * Todo los metodos de buscar articulo

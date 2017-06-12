@@ -34,7 +34,6 @@ public class Venta implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date fechaVenta;
 
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name="ID_CLIENTE")
 	private Cliente cliente;
@@ -44,12 +43,13 @@ public class Venta implements Serializable{
 	private List<LineaVenta> lineaVentas;
 	
 	
-	public Venta(){}
+	public Venta(){
+		this.fechaVenta = new Date();}
 	
-	public Venta(Cliente cliente, Date fechaVenta, List<LineaVenta> lineaVentas){
+	public Venta(Cliente cliente, List<LineaVenta> lineaVentas){
 		this.cliente = cliente;
 		this.lineaVentas = lineaVentas;
-		this.fechaVenta = fechaVenta;
+		this.fechaVenta = new Date();
 	}
 	
 	public List<LineaVenta> getLineaVentas() {

@@ -1,6 +1,8 @@
 package patronDAO;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,6 +20,13 @@ public class ClienteDAO extends GenericDAO<Cliente> {
 		
 		return cliente;
 	}
+
+	public Cliente getVentasClientePorDni(String dni) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Cliente cliente = (Cliente) session.createQuery("SELECT c FROM Cliente c LEFT JOIN FETCH c.ventas WHERE c.dni = '"+dni+"'").uniqueResult();
+		
+		return cliente;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Cliente> obtenerTodo(){
@@ -25,6 +34,19 @@ public class ClienteDAO extends GenericDAO<Cliente> {
 		Query query = session.createQuery(OBTENER_TODO);
 		
 		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Cliente> obtenerTodoCountVenta() {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Query query = session.createQuery("SELECT c FROM Cliente c LEFT JOIN FETCH c.ventas");
+		List<Cliente> clientes = query.list();
+		
+		Set<Cliente> clientesSinDuplicar = new LinkedHashSet<Cliente>(clientes);
+		clientes.clear();
+		clientes.addAll(clientesSinDuplicar);
+		
+		return clientes;
 	}
 	
 	@SuppressWarnings("unchecked")

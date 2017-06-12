@@ -2,21 +2,27 @@ package vista;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+
 import modelo.BigPanel;
 
 @SuppressWarnings("serial")
 public class VistaFactura extends javax.swing.JPanel {
 
     private final BigPanel barra;
+    private JPanel panelPostizo;
     
     public VistaFactura(BigPanel barra) {
+        setLayout(new java.awt.BorderLayout());
         this.barra = barra;
-        initComponents();
         cargarAjustesComponentes();
     }
     
     private void cargarAjustesComponentes() {
+        panelPostizo = new JPanel(new BorderLayout());
         this.add(barra, BorderLayout.NORTH);
+        this.add(panelPostizo, BorderLayout.CENTER);
         
     }
     
@@ -28,9 +34,12 @@ public class VistaFactura extends javax.swing.JPanel {
         return barra;
     }
 
-    private void initComponents() {
-
-        setLayout(new java.awt.BorderLayout());
+    public void setPanelDerecho(JPanel panelDerecho){
+        panelPostizo.removeAll();
+        panelPostizo.add(panelDerecho, java.awt.BorderLayout.CENTER);
+        panelPostizo.updateUI();
+        panelPostizo.repaint();
+        
     }
 
 }
